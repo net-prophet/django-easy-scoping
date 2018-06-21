@@ -104,13 +104,13 @@ const Features = props => (
     {[
       {
         content: 'Checkbox, Boolean, and Choice Scoping.',
-        image: imgUrl('docusaurus.svg'),
+        image: imgUrl('NPlogo2.svg'),
         imageAlign: 'top',
         title: 'Scoping',
       },
       {
         content: 'Take queryset and return a scalar value(s).',
-        image: imgUrl('docusaurus.svg'),
+        image: imgUrl('NPlogo2.svg'),
         imageAlign: 'top',
         title: 'Aggregate Functions',
       },
@@ -126,7 +126,7 @@ const FeatureCallout = props => (
     {[
       {
         content: 'Easy syntax for complicated querysets.',
-        image: imgUrl('docusaurus.svg'),
+        image: imgUrl('NPlogo.svg'),
         imageAlign: 'top',
         title: 'Querysets',
       },
@@ -165,10 +165,10 @@ const Description = props => (
   <Block background="dark">
     {[
       {
-        content: 'This is another description of how this project is useful',
-        image: imgUrl('docusaurus.svg'),
+        content: '',
+        image: imgUrl('NPlogo4.svg'),
         imageAlign: 'right',
-        title: 'Description',
+        title: 'Scoping, made easy!',
       },
     ]}
   </Block>
