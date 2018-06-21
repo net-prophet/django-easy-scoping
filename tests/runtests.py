@@ -6,7 +6,7 @@ import sys
 APP_DIR = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, APP_DIR)
 
-SETTINGS_DICT = { }
+SETTINGS_DICT = {}
 
 
 def run_tests():
