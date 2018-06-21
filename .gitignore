@@ -4,6 +4,9 @@ __pycache__
 dist/
 .python-version
 .tox/
+bin
+include
+lib
 
 .DS_Store
 
