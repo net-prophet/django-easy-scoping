@@ -18,9 +18,10 @@ jobs:
     steps:
       - checkout
       - run: tox
+
   deploy-docs:
     docker:
-      -image: circleci/node:8.11.1
+      - image: circleci/node:8.11.1
 
     steps:
       - checkout
