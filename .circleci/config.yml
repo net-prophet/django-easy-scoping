@@ -31,12 +31,11 @@ jobs:
             git config --global user.name "robdox"
             echo "machine github.com login robdox password $GITHUB_TOKEN" > ~/.netrc
             cd website && npm install && GIT_USER=robdox CURRENT_BRANCH=gh-pages npm run publish-gh-pages
+
 workflows:
   version: 2
   build_and_deploy:
     jobs:
       - test-python
-      - deploy-docs:
-        requires:
-          - test-python
+      - deploy-docs
 
