@@ -4,6 +4,12 @@
 #
 version: 2
 jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - run: cd website && npm run build
+
   test-python:
     working_directory: ~.
     docker:
