@@ -25,9 +25,7 @@ jobs:
       - checkout
       - run: 
           name: Running Tox Tests
-          command: |
-            source bin/activate
-            cd easy_scoping && tox
+          command: cd easy_scoping && tox
 
   deploy-docs:
     docker:
