@@ -23,7 +23,11 @@ jobs:
       # - image: circleci/postgres:9.4
     steps:
       - checkout
-      - run: easy_scoping/tox
+      - run: 
+        name: Running Tox Tests
+        command: |
+            source bin/activate
+            cd easy_scoping && tox
 
   deploy-docs:
     docker:
