@@ -24,8 +24,8 @@ jobs:
     steps:
       - checkout
       - run: 
-        name: Running Tox Tests
-        command: |
+          name: Running Tox Tests
+          command: |
             source bin/activate
             cd easy_scoping && tox
 
