@@ -10,5 +10,4 @@ setup(
         'Django>=1.11,<3.0',
         'requests',
     ],
-    long_description=open('README.txt').read(),
 )
