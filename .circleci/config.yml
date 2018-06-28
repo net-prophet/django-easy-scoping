@@ -23,7 +23,7 @@ jobs:
       # - image: circleci/postgres:9.4
     steps:
       - checkout
-      - run: tox
+      - run: easy_scoping/tox
 
   deploy-docs:
     docker:
