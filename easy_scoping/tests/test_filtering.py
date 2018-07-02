@@ -15,6 +15,24 @@ class FilterTests(TestCase):
         self.assertEqual(obj.count(), 336)
 
     def test_query_widget(self):
-        obj = Widget.objects.filter(color='blue', size='small', shape='circle')
-        print(obj)
-        self.assertEqual(obj.count(), 1)
+        obj1 = Widget.objects.filter(color='blue',
+                                     size='small',
+                                     shape='circle')
+        obj2 = Widget.a().basic_query_widget()
+
+        self.assertQuerysetEqual(obj1,
+                                 obj2,
+                                 transform=lambda x: x,
+                                 ordered=False)
+        self.assertEqual(obj1.count(), obj2.count())
+        self.assertEqual(obj1.get(), obj2.get())
+
+    def test_query_blue(self):
+        obj1 = Widget.objects.filter(color='blue')
+        obj2 = Widget.a().blue()
+
+        self.assertEqual(obj1.count(), obj2.count())
+        self.assertQuerysetEqual(obj1,
+                                 obj2,
+                                 transform=lambda x: x,
+                                 ordered=False)
