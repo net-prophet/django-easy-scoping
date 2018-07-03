@@ -29,11 +29,22 @@ class Widget(ScopingMixin, models.Model):
     def get_used_on(self):
         return self.used_on
 
-
+# Basic scopes for testing filtering
 Widget.scope('basic_query_widget', lambda qs: qs.f(color='blue',
                                                   size='small',
                                                   shape='circle'))
-
 Widget.scope('blue', lambda qs: qs.f(color='blue'))
 Widget.scope('small', lambda qs: qs.f(size='small'))
 Widget.scope('circle', lambda qs: qs.f(shape='circle'))
+Widget.scope('before_y2k', lambda qs: qs.f(used_on__lte=datetime.date(2000,1,1)))
+Widget.scope('after_y2k', lambda qs: qs.f(used_on__gte=datetime.date(2000,1,1)))
+
+# Basic scopes for testing excluding
+Widget.scope('not_basic_query_widget', lambda qs: qs.e(color='blue',
+                                                       size='small',
+                                                       shape='circle'))
+Widget.scope('not_blue', lambda qs: qs.e(color='blue'))
+Widget.scope('not_small', lambda qs: qs.e(size='small'))
+Widget.scope('not_circle', lambda qs: qs.e(shape='circle'))
+Widget.scope('not_before_y2k', lambda qs: qs.e(used_on__lte=datetime.date(2000,1,1)))
+Widget.scope('not_after_y2k', lambda qs: qs.e(used_on__gte=datetime.date(2000,1,1)))

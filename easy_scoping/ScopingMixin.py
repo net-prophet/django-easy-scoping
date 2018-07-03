@@ -7,21 +7,20 @@ class ScopingQuerySet(models.QuerySet):
             return scoped_query
         raise AttributeError('Queryset for %s has no attribute %s' %(self.model, name))
 
-    def a(self):
+    def a(self, *args, **kwargs):
         return self.all()
 
     def f(self, *args, **kwargs):
         return self.filter(*args, **kwargs)
+
+    def e(self, *args, **kwargs):
+        return self.exclude(*args, **kwargs)
 
 class ScopingMixin(object):
 
     @classmethod
     def a(self):
         return self.objects.all()
-
-    @classmethod
-    def f(self, *args, **kwargs):
-        return self.objects.filter(*args, **kwargs)
 
     @classmethod
     def scopes(cls):
@@ -33,7 +32,7 @@ class ScopingMixin(object):
     def scope(cls, name, func):
         from types import MethodType
         if name in cls.scopes():
-            name = '%s_%s'%(cls.label, name)
+            name = '_%s'%(name)
 
         cls.__scopes__[name] = func
 
