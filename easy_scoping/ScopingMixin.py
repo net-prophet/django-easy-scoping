@@ -19,8 +19,8 @@ class ScopingQuerySet(models.QuerySet):
 class ScopingMixin(object):
 
     @classmethod
-    def a(self):
-        return self.objects.all()
+    def a(cls):
+        return cls.objects.all()
 
     @classmethod
     def scopes(cls):

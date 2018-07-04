@@ -22,7 +22,7 @@ const users = [
 
 const siteConfig = {
   title: 'Django Easy Scoping' /* title for your website */,
-  tagline: 'Scopes, Aggregate Functions, Querysets made easy.',
+  tagline: 'Scopes, Aggregate Functions, and Querysets made easy!',
   url: 'https://net-prophet.github.io' /* your website url */,
   baseUrl: '/django-easy-scoping/' /* base url for your project */,
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -38,10 +38,9 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
-    {page: 'help', label: 'Help'},
-    {blog: true, label: 'Blog'},
+    {doc: 'installation', label: 'Installation'},
+    {doc: 'usage', label: 'Usage'},
+    {doc: 'api', label: 'API'},
   ],
 
   // If you have users set above, you add it here:

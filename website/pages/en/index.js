@@ -50,12 +50,6 @@ const SplashContainer = props => (
   </div>
 );
 
-const Logo = props => (
-  <div className="projectLogo">
-    <img src={props.img_src} />
-  </div>
-);
-
 const ProjectTitle = props => (
   <h2 className="projectTitle">
     {siteConfig.title}
@@ -63,7 +57,7 @@ const ProjectTitle = props => (
   </h2>
 );
 
-const PromoSection = props => (
+const PageHeader = props => (
   <div className="section promoSection">
     <div className="promoRow">
       <div className="pluginRowBlock">{props.children}</div>
@@ -76,14 +70,22 @@ class HomeSplash extends React.Component {
     let language = this.props.language || '';
     return (
       <SplashContainer>
-        <Logo img_src={imgUrl('docusaurus.svg')} />
         <div className="inner">
           <ProjectTitle />
-          <PromoSection>
-            <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html', language)}>Example Link</Button>
-            <Button href={docUrl('doc2.html', language)}>Example Link 2</Button>
-          </PromoSection>
+          <PageHeader>
+            <div>
+                <a href="https://github.com/net-prophet/django-easy-scoping">GitHub</a>
+                <a className="github-button"
+                    href= "https://github.com/net-prophet/django-easy-scoping"
+                    data-icon="octicon-star"
+                    data-count-href="/net-prophet/django-easy-scoping/stargazers"
+                    data-show-count={true}
+                    data-count-aria-label="# stargazers on GitHub"
+                    aria-label="Star this project on GitHub">
+                    Star
+                </a>
+            </div>
+          </PageHeader>
         </div>
       </SplashContainer>
     );
@@ -99,26 +101,26 @@ const Block = props => (
   </Container>
 );
 
-const Features = props => (
+const Scopes_Aggregate = props => (
   <Block layout="fourColumn">
     {[
       {
-        content: 'Checkbox, Boolean, and Choice Scoping.',
+        content: 'Reduce common querysets to easy to use scopes.',
         image: imgUrl('NPlogo2.svg'),
         imageAlign: 'top',
-        title: 'Scoping',
+        title: 'Scopes',
       },
       {
         content: 'Take queryset and return a scalar value(s).',
         image: imgUrl('NPlogo2.svg'),
         imageAlign: 'top',
-        title: 'Aggregate Functions',
+        title: 'Custom Aggregate Functions',
       },
     ]}
   </Block>
 );
 
-const FeatureCallout = props => (
+const Querysets = props => (
   <div
     className="productShowcaseSection paddingBottom"
     style={{textAlign: 'center'}}>
@@ -135,72 +137,6 @@ const FeatureCallout = props => (
   </div>
 );
 
-const LearnHow = props => (
-  <Block background="light">
-    {[
-      {
-        content: 'Talk about learning how to use this',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Learn How',
-      },
-    ]}
-  </Block>
-);
-
-const TryOut = props => (
-  <Block id="try">
-    {[
-      {
-        content: 'Talk about trying this out',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'left',
-        title: 'Try it Out',
-      },
-    ]}
-  </Block>
-);
-
-const Description = props => (
-  <Block background="dark">
-    {[
-      {
-        content: '',
-        image: imgUrl('NPlogo4.svg'),
-        imageAlign: 'right',
-        title: 'Scoping, made easy!',
-      },
-    ]}
-  </Block>
-);
-
-const Showcase = props => {
-  if ((siteConfig.users || []).length === 0) {
-    return null;
-  }
-  const showcase = siteConfig.users
-    .filter(user => {
-      return user.pinned;
-    })
-    .map((user, i) => {
-      return (
-        <a href={user.infoLink} key={i}>
-          <img src={user.image} alt={user.caption} title={user.caption} />
-        </a>
-      );
-    });
-
-  return (
-    <div className="productShowcaseSection paddingBottom">
-      <h2>{"Who's Using This?"}</h2>
-      <p>You!</p>
-      <div className="logos">{showcase}</div>
-      <div className="more-users">
-      </div>
-    </div>
-  );
-};
-
 class Index extends React.Component {
   render() {
     let language = this.props.language || '';
@@ -209,10 +145,8 @@ class Index extends React.Component {
       <div>
         <HomeSplash language={language} />
         <div className="mainContainer">
-          <Features />
-          <FeatureCallout />
-          <Description />
-          <Showcase language={language} />
+          <Scopes_Aggregate />
+          <Querysets />
         </div>
       </div>
     );
