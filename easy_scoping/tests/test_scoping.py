@@ -16,6 +16,56 @@ class ScopingTests(TestCase):
         obj = obj.a()
         self.assertEqual(obj.count(), 336)
 
+    def test_passing_many_kwargs(self):
+        obj1 = Widget.objects.filter(color='blue',
+                                     size='small')
+        obj2 = Widget.a().take_kwargs(color='blue', size='small')
+
+        self.assertQuerysetEqual(obj1,
+                                 obj2,
+                                 transform=lambda x: x,
+                                 ordered=False)
+        self.assertEqual(obj1.count(), obj2.count())
+
+        obj3 = Widget.a().take_kwargs(size='small', color='blue')
+
+        self.assertQuerysetEqual(obj1,
+                                 obj3,
+                                 transform=lambda x: x,
+                                 ordered=False)
+        self.assertEqual(obj1.count(), obj3.count())
+
+    def test_passing_kwargs(self):
+        obj1 = Widget.objects.filter(color='blue')
+        obj2 = Widget.a().take_kwargs(color='blue')
+
+        self.assertQuerysetEqual(obj1,
+                                 obj2,
+                                 transform=lambda x: x,
+                                 ordered=False)
+        self.assertEqual(obj1.count(), obj2.count())
+
+    def test_passing_many_args(self):
+        obj1 = Widget.objects.filter(color='blue',
+                                     size='small')
+        obj2 = Widget.a().take_more_args('blue', 'small')
+
+        self.assertQuerysetEqual(obj1,
+                                 obj2,
+                                 transform=lambda x: x,
+                                 ordered=False)
+        self.assertEqual(obj1.count(), obj2.count())
+
+    def test_passing_args(self):
+        obj1 = Widget.objects.filter(color='blue')
+        obj2 = Widget.a().take_args('blue')
+
+        self.assertQuerysetEqual(obj1,
+                                 obj2,
+                                 transform=lambda x: x,
+                                 ordered=False)
+        self.assertEqual(obj1.count(), obj2.count())
+
     def test_no_scope_registered(self):
         with self.assertRaises(AttributeError):
             Widget.a().not_a_scope()

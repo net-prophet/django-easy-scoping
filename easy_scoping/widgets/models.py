@@ -48,3 +48,8 @@ Widget.scope('not_small', lambda qs: qs.e(size='small'))
 Widget.scope('not_circle', lambda qs: qs.e(shape='circle'))
 Widget.scope('not_before_y2k', lambda qs: qs.e(used_on__lte=datetime.date(2000,1,1)))
 Widget.scope('not_after_y2k', lambda qs: qs.e(used_on__gte=datetime.date(2000,1,1)))
+
+# Scope takes argument
+Widget.scope('take_args', lambda qs, i: qs.f(color=i))
+Widget.scope('take_more_args', lambda qs, i, r: qs.f(color=i, size=r))
+Widget.scope('take_kwargs', lambda qs, **kwargs: qs.f(**kwargs))
