@@ -1,57 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Usage · Django Easy Scoping</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## Example Django Model"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Usage · Django Easy Scoping"/><meta property="og:type" content="website"/><meta property="og:url" content="https://net-prophet.github.io/django-easy-scoping/index.html"/><meta property="og:description" content="## Example Django Model"/><meta property="og:image" content="https://net-prophet.github.io/django-easy-scoping/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://net-prophet.github.io/django-easy-scoping/img/docusaurus.png"/><link rel="shortcut icon" href="/django-easy-scoping/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/django-easy-scoping/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/django-easy-scoping/"><img class="logo" src="/django-easy-scoping/img/NPlogo.svg" alt="Django Easy Scoping"/><h2 class="headerTitleWithLogo">Django Easy Scoping</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/django-easy-scoping/docs/installation.html" target="_self">Installation</a></li><li class="siteNavItemActive"><a href="/django-easy-scoping/docs/usage.html" target="_self">Usage</a></li><li class=""><a href="/django-easy-scoping/docs/api.html" target="_self">API</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Usage</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="example-django-model"></a><a href="#example-django-model" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Django Model</h2>
-<pre><code class="hljs css languages- python">
-
-<span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
-<span class="hljs-keyword">from</span> .options <span class="hljs-keyword">import</span> COLORS, SIZES, SHAPES
-<span class="hljs-keyword">from</span> ScopingMixin <span class="hljs-keyword">import</span> ScopingMixin, ScopingQuerySet
-<span class="hljs-keyword">import</span> datetime
-
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Widget</span><span class="hljs-params">(ScopingMixin, models.Model)</span>:</span>
-    name = models.CharField(max_length=<span class="hljs-number">30</span>)
-    color = models.CharField(choices=COLORS, max_length=<span class="hljs-number">30</span>)
-    size = models.CharField(choices=SIZES, max_length=<span class="hljs-number">30</span>)
-    shape = models.CharField(choices=SHAPES, max_length=<span class="hljs-number">30</span>)
-    used_on = models.DateField(default=datetime.date.today)
-
-    objects = ScopingQuerySet.as_manager()
-
-
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_name</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.name
-
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_color</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.color
-
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_size</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.size
-
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_shape</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.shape
-
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_used_on</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.used_on
-
-<span class="hljs-comment"># Scopes for filtering</span>
-Widget.scope(<span class="hljs-string">'basic_filter_widget'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(color=<span class="hljs-string">'blue'</span>,
-                                                  size=<span class="hljs-string">'small'</span>,
-                                                  shape=<span class="hljs-string">'circle'</span>))
-Widget.scope(<span class="hljs-string">'blue'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(color=<span class="hljs-string">'blue'</span>))
-Widget.scope(<span class="hljs-string">'small'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(size=<span class="hljs-string">'small'</span>))
-Widget.scope(<span class="hljs-string">'circle'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(shape=<span class="hljs-string">'circle'</span>))
-Widget.scope(<span class="hljs-string">'before_y2k'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(used_on__lte=datetime.date(<span class="hljs-number">2000</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)))
-
-<span class="hljs-comment"># Scopes for excluding</span>
-Widget.scope(<span class="hljs-string">'basic_exclude_widget'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(color=<span class="hljs-string">'blue'</span>,
-                                                       size=<span class="hljs-string">'small'</span>,
-                                                       shape=<span class="hljs-string">'circle'</span>))
-Widget.scope(<span class="hljs-string">'not_blue'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(color=<span class="hljs-string">'blue'</span>))
-Widget.scope(<span class="hljs-string">'not_small'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(size=<span class="hljs-string">'small'</span>))
-Widget.scope(<span class="hljs-string">'not_circle'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(shape=<span class="hljs-string">'circle'</span>))
-Widget.scope(<span class="hljs-string">'not_before_y2k'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(used_on__lte=datetime.date(<span class="hljs-number">2000</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)))
-</code></pre>
-<h2><a class="anchor" aria-hidden="true" id="usage"></a><a href="#usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
-<h3><a class="anchor" aria-hidden="true" id="basic-scoping"></a><a href="#basic-scoping" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic Scoping</h3>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Usage · Django Easy Scoping</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Example Django Model located at bottom of page."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Usage · Django Easy Scoping"/><meta property="og:type" content="website"/><meta property="og:url" content="https://net-prophet.github.io/django-easy-scoping/index.html"/><meta property="og:description" content="Example Django Model located at bottom of page."/><meta property="og:image" content="https://net-prophet.github.io/django-easy-scoping/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://net-prophet.github.io/django-easy-scoping/img/docusaurus.png"/><link rel="shortcut icon" href="/django-easy-scoping/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/django-easy-scoping/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/django-easy-scoping/"><img class="logo" src="/django-easy-scoping/img/NPlogo.svg" alt="Django Easy Scoping"/><h2 class="headerTitleWithLogo">Django Easy Scoping</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/django-easy-scoping/docs/installation.html" target="_self">Installation</a></li><li class="siteNavItemActive"><a href="/django-easy-scoping/docs/usage.html" target="_self">Usage</a></li><li class=""><a href="/django-easy-scoping/docs/api.html" target="_self">API</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Usage</h1></header><article><div><span><p>Example Django Model located at bottom of page.</p>
+<h2><a class="anchor" aria-hidden="true" id="basic-usage"></a><a href="#basic-usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic Usage</h2>
+<h3><a class="anchor" aria-hidden="true" id="scoping"></a><a href="#scoping" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scoping</h3>
 <p>Now, Let's say we wanted to find all of the widgets in our database which were
 blue.</p>
 <p>Without easy scoping:</p>
@@ -60,7 +9,7 @@ blue.</p>
 <p>With easy scoping:</p>
 <pre><code class="hljs css languages- python">Widget.a().blue()
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" id="basic-scoping-multiple-fields"></a><a href="#basic-scoping-multiple-fields" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic Scoping Multiple Fields</h3>
+<h3><a class="anchor" aria-hidden="true" id="scoping-multiple-fields"></a><a href="#scoping-multiple-fields" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scoping Multiple Fields</h3>
 <p>How about finding all of the widgets which are blue, small, and a circle.</p>
 <p>Without easy scoping:</p>
 <pre><code class="hljs css languages- python">Widget.objects.filter(color=<span class="hljs-string">'blue'</span>, size=<span class="hljs-string">'small'</span>, shape=<span class="hljs-string">'circle'</span>)
@@ -99,4 +48,87 @@ these querysets. The full list of operations can be found <a href="https://docs.
 alphabetical order.</p>
 <pre><code class="hljs css languages- python">Widget.a().blue().small().not_circle().order_by(<span class="hljs-string">'color'</span>)
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#example-django-model">Example Django Model</a></li><li><a href="#usage">Usage</a><ul class="toc-headings"><li><a href="#basic-scoping">Basic Scoping</a></li><li><a href="#basic-scoping-multiple-fields">Basic Scoping Multiple Fields</a></li><li><a href="#chaining-scopes">Chaining Scopes</a></li><li><a href="#chaining-scopes-django-methods">Chaining Scopes + Django Methods</a></li><li><a href="#exluding-scopes">Exluding Scopes</a></li><li><a href="#using-other-queryset-methods">Using Other Queryset Methods</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Net Prophet Technologies </section></footer></div></body></html>
+<h2><a class="anchor" aria-hidden="true" id="advanced-usage"></a><a href="#advanced-usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Usage</h2>
+<p>Using lambda functions, and that scopes take *args, **kwargs, you can create
+some really interesting scopes to simply your workflow.</p>
+<h3><a class="anchor" aria-hidden="true" id="arguments"></a><a href="#arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Arguments</h3>
+<p>You could have a scope that filters on colors but instead of having one for
+<code>blue</code> and one for <code>green</code> we can just have do something like this.</p>
+<pre><code class="hljs css languages- python">Widget.scope(<span class="hljs-string">'colors'</span>, <span class="hljs-keyword">lambda</span> queryset, value: queryset.f(color=value))
+<span class="hljs-comment"># Then this works for any color</span>
+Widget.a().color(<span class="hljs-string">'blue'</span>)
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="multiple-arguments"></a><a href="#multiple-arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Multiple Arguments</h3>
+<p>You can also make scopes on more than one argument, let's check out one for
+color and size</p>
+<pre><code class="hljs css languages- python">Widget.scope(<span class="hljs-string">'color_size'</span>, <span class="hljs-keyword">lambda</span> queryset, c_value, s_value: queryset.f(color=value, size=s_value))
+<span class="hljs-comment"># Then you can just pass like this</span>
+Widget.a().color_size(<span class="hljs-string">'blue'</span>, <span class="hljs-string">'small'</span>)
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="keyword-arguments"></a><a href="#keyword-arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Keyword Arguments</h3>
+<p>The problem with args is that you have to remember the order you set up when you
+defined the scope. You can just use kwargs instead!</p>
+<pre><code class="hljs css languages- python">Widget.scope(<span class="hljs-string">'foo'</span>, <span class="hljs-keyword">lambda</span> queryset, **kwargs: queryset.f(**kwargs))
+<span class="hljs-comment"># Then this works for any color</span>
+Widget.a().foo(color=<span class="hljs-string">'blue'</span>)
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="multiple-keyword-arguments"></a><a href="#multiple-keyword-arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Multiple Keyword Arguments</h3>
+<p>With this you can just go nuts on filtering, but this is basically just using
+the actual <code>.filter()</code> method.</p>
+<pre><code class="hljs css languages- python">Widget.scope(<span class="hljs-string">'foo'</span>, <span class="hljs-keyword">lambda</span> queryset, **kwargs: queryset.f(**kwargs))
+<span class="hljs-comment"># Then this works for any color</span>
+Widget.a().foo(color=<span class="hljs-string">'blue'</span>, size=<span class="hljs-string">'small'</span>)
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="example-django-model"></a><a href="#example-django-model" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Django Model</h2>
+<pre><code class="hljs css languages- python">
+
+<span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+<span class="hljs-keyword">from</span> .options <span class="hljs-keyword">import</span> COLORS, SIZES, SHAPES
+<span class="hljs-keyword">from</span> ScopingMixin <span class="hljs-keyword">import</span> ScopingMixin, ScopingQuerySet
+<span class="hljs-keyword">import</span> datetime
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Widget</span><span class="hljs-params">(ScopingMixin, models.Model)</span>:</span>
+    name = models.CharField(max_length=<span class="hljs-number">30</span>)
+    color = models.CharField(choices=COLORS, max_length=<span class="hljs-number">30</span>)
+    size = models.CharField(choices=SIZES, max_length=<span class="hljs-number">30</span>)
+    shape = models.CharField(choices=SHAPES, max_length=<span class="hljs-number">30</span>)
+    used_on = models.DateField(default=datetime.date.today)
+
+    objects = ScopingQuerySet.as_manager()
+
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_name</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.name
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_color</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.color
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_size</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.size
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_shape</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.shape
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_used_on</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.used_on
+
+<span class="hljs-comment"># Scopes for filtering</span>
+Widget.scope(<span class="hljs-string">'basic_filter_widget'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(color=<span class="hljs-string">'blue'</span>,
+                                                    size=<span class="hljs-string">'small'</span>,
+                                                    shape=<span class="hljs-string">'circle'</span>))
+Widget.scope(<span class="hljs-string">'blue'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(color=<span class="hljs-string">'blue'</span>))
+Widget.scope(<span class="hljs-string">'small'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(size=<span class="hljs-string">'small'</span>))
+Widget.scope(<span class="hljs-string">'circle'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(shape=<span class="hljs-string">'circle'</span>))
+Widget.scope(<span class="hljs-string">'before_y2k'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(used_on__lte=datetime.date(<span class="hljs-number">2000</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)))
+
+<span class="hljs-comment"># Scopes for excluding</span>
+Widget.scope(<span class="hljs-string">'basic_exclude_widget'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(color=<span class="hljs-string">'blue'</span>,
+                                                     size=<span class="hljs-string">'small'</span>,
+                                                     shape=<span class="hljs-string">'circle'</span>))
+Widget.scope(<span class="hljs-string">'not_blue'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(color=<span class="hljs-string">'blue'</span>))
+Widget.scope(<span class="hljs-string">'not_small'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(size=<span class="hljs-string">'small'</span>))
+Widget.scope(<span class="hljs-string">'not_circle'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(shape=<span class="hljs-string">'circle'</span>))
+Widget.scope(<span class="hljs-string">'not_before_y2k'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(used_on__lte=datetime.date(<span class="hljs-number">2000</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)))
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#basic-usage">Basic Usage</a><ul class="toc-headings"><li><a href="#scoping">Scoping</a></li><li><a href="#scoping-multiple-fields">Scoping Multiple Fields</a></li><li><a href="#chaining-scopes">Chaining Scopes</a></li><li><a href="#chaining-scopes-django-methods">Chaining Scopes + Django Methods</a></li><li><a href="#exluding-scopes">Exluding Scopes</a></li><li><a href="#using-other-queryset-methods">Using Other Queryset Methods</a></li></ul></li><li><a href="#advanced-usage">Advanced Usage</a><ul class="toc-headings"><li><a href="#arguments">Arguments</a></li><li><a href="#multiple-arguments">Multiple Arguments</a></li><li><a href="#keyword-arguments">Keyword Arguments</a></li><li><a href="#multiple-keyword-arguments">Multiple Keyword Arguments</a></li></ul></li><li><a href="#example-django-model">Example Django Model</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Net Prophet Technologies </section></footer></div></body></html>
