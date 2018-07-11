@@ -1,39 +1,24 @@
 from django.db import models
-from django.db.models import Count, Case, When
 class ScopingQuerySet(models.QuerySet):
-    def __getattr__(self, name):
-        if name in self.model.scopes():
-            def scoped_query(*args, **kwargs):
-                return self.model.scopes()[name](self, *args, **kwargs)
-            return scoped_query
-        elif name not in self.model.aggs():
-            raise AttributeError('Queryset for %s has no attribute %s' %(self.model, name))
-
-        if name in self.model.aggs():
-            def aggregate_query(*args, **kwargs):
-                return self.model.aggs()[name](self, *args, **kwargs)
-            return aggregate_query
-        elif name not in self.model.scopes():
-            raise AttributeError('Aggregate for %s has no attribute %s' %(self.model, name))
-
-    def a(self, *args, **kwargs):
-        return self.all()
-
-    def f(self, *args, **kwargs):
-        return self.filter(*args, **kwargs)
-
-    def e(self, *args, **kwargs):
-        return self.exclude(*args, **kwargs)
-
-    def g(self, operation, *args, **kwargs):
-        if operation.lower() == 'count':
-            return self.aggregate(ret=Count(Case(When(then=1, **kwargs))))['ret']
+    def __getattr__(self, attr):
+        for plugin in ['scopes', 'aggregates']:
+            if attr in getattr(self.model, '__%s__'%plugin):
+                def scoped_query(*args, **kwargs):
+                    return getattr(self.model, '__%s__'%plugin)[attr](self, *args, **kwargs)
+                return scoped_query
+        raise AttributeError('Queryset for %s has no attribute %s' %(self.model, attr))
 
 class ScopingMixin(object):
 
     @classmethod
-    def a(cls):
-        return cls.objects.all()
+    def check_names(cls, name):
+        if name in cls.scopes():
+            print('CATCH THIS STATEMENT', name)
+            raise AttributeError('%s already has a scope named %s' %(cls, name))
+
+        if name in cls.aggregates():
+            print('CATCH THIS STATEMENT', name)
+            raise AttributeError('%s already has an aggregate named %s' %(cls, name))
 
     @classmethod
     def scopes(cls):
@@ -42,11 +27,10 @@ class ScopingMixin(object):
         return cls.__scopes__
 
     @classmethod
-    def scope(cls, name, func):
+    def register_scope(cls, name, func):
         from types import MethodType
-        if name in cls.scopes():
-            name = '_%s'%(name)
 
+        cls.check_names(name)
         cls.__scopes__[name] = func
 
         def scoped_query_classmethod(klss, *args, **kwargs):
@@ -60,18 +44,17 @@ class ScopingMixin(object):
         setattr(cls, 'in_scope_%s'%name, MethodType(instance_in_scope, cls))
 
     @classmethod
-    def aggs(cls):
-        if not getattr(cls, '__aggs__', None):
-            setattr(cls, '__aggs__', dict())
-        return cls.__aggs__
+    def aggregates(cls):
+        if not getattr(cls, '__aggregates__', None):
+            setattr(cls, '__aggregates__', dict())
+        return cls.__aggregates__
 
     @classmethod
     def register_aggregate(cls, name, func):
         from types import MethodType
-        if name in cls.aggs():
-            name = '_%s'%(name)
 
-        cls.__aggs__[name] = func
+        cls.check_names(name)
+        cls.__aggregates__[name] = func
 
         def aggregate_classmethod(klss, *args, **kwargs):
             return getattr(klss.a(), name)(*args, **kwargs)
@@ -82,3 +65,4 @@ class ScopingMixin(object):
             return bool(func(self.a(), *args, **kwargs).g(pk=self.pk))
 
         setattr(cls, 'in_agg_%s'%name, MethodType(instance_in_agg, cls))
+

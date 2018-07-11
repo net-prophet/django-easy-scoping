@@ -14,66 +14,63 @@ class AggregationTests(TestCase):
         obj = Widget.objects.all()
         self.assertEqual(obj.count(), 2500)
 
-        obj = obj.a()
-        self.assertEqual(obj.count(), 2500)
-
     def test_num_blue(self):
-        obj1 = Widget.a().aggregate(ret=Count(Case(When(color='blue',
+        obj1 = Widget.objects.all().aggregate(ret=Count(Case(When(color='blue',
                                                         then=1))))['ret']
-        obj2 = Widget.a().num_blue()
+        obj2 = Widget.objects.all().num_blue()
 
         self.assertEqual(obj1, obj2)
 
     def test_num_blue_filtered(self):
-        obj1 = Widget.a().blue().not_small() \
+        obj1 = Widget.objects.all().blue().not_small() \
                      .aggregate(ret=Count(Case(When(color='blue', then=1))))['ret']
-        obj2 = Widget.a().blue().not_small().num_blue()
+        obj2 = Widget.objects.all().blue().not_small().num_blue()
 
         self.assertEqual(obj1, obj2)
 
     def test_no_blue_filtered(self):
-        obj1 = Widget.a().not_blue() \
+        obj1 = Widget.objects.all().not_blue() \
                      .aggregate(ret=Count(Case(When(color='blue', then=1))))['ret']
 
-        obj2 = Widget.a().not_blue().num_blue()
+        obj2 = Widget.objects.all().not_blue().num_blue()
 
         self.assertEqual(obj1, obj2)
 
     def test_multiple_aggs(self):
-        obj1 = Widget.a().basic_query_widget() \
+        obj1 = Widget.objects.all().basic_query_widget() \
                      .aggregate(ret=Count(Case(When(color='blue',
                                                     size='small',
                                                     then=1))))['ret']
 
-        obj2 = Widget.a().basic_query_widget().num_blue_small()
+        obj2 = Widget.objects.all().basic_query_widget().num_blue_small()
 
         self.assertEqual(obj1, obj2)
 
-        obj3 = Widget.a().not_circle().before_y2k() \
+        obj3 = Widget.objects.all().not_circle().before_y2k() \
                      .aggregate(ret=Count(Case(When(color='blue',
                                                     size='small',
                                                     then=1))))['ret']
 
-        obj4 = Widget.a().not_circle().before_y2k().num_blue_small()
+        obj4 = Widget.objects.all().not_circle().before_y2k().num_blue_small()
 
         self.assertEqual(obj3, obj4)
 
     def test_passing_kwags(self):
-        obj1 = Widget.a().basic_query_widget() \
+        obj1 = Widget.objects.all().basic_query_widget() \
                      .aggregate(ret=Count(Case(When(color='blue',
                                                     size='small',
                                                     then=1))))['ret']
 
-        obj2 = Widget.a().basic_query_widget().num_kwargs(color='blue',
-                                                          size='small')
+        obj2 = Widget.objects.all().basic_query_widget().num_kwargs(color='blue',
+                                                                    size='small')
 
         self.assertEqual(obj1, obj2)
 
-        obj3 = Widget.a().not_circle().before_y2k() \
+        obj3 = Widget.objects.all().not_circle().before_y2k() \
                      .aggregate(ret=Count(Case(When(color='blue',
                                                     size='small',
                                                     then=1))))['ret']
 
-        obj4 = Widget.a().not_circle().before_y2k().num_blue_small()
+        obj4 = Widget.objects.all().not_circle().before_y2k().num_blue_small()
 
         self.assertEqual(obj3, obj4)

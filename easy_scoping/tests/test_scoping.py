@@ -13,13 +13,10 @@ class ScopingTests(TestCase):
         obj = Widget.objects.all()
         self.assertEqual(obj.count(), 336)
 
-        obj = obj.a()
-        self.assertEqual(obj.count(), 336)
-
     def test_passing_many_kwargs(self):
         obj1 = Widget.objects.filter(color='blue',
                                      size='small')
-        obj2 = Widget.a().take_kwargs(color='blue', size='small')
+        obj2 = Widget.objects.all().take_kwargs(color='blue', size='small')
 
         self.assertQuerysetEqual(obj1,
                                  obj2,
@@ -27,7 +24,7 @@ class ScopingTests(TestCase):
                                  ordered=False)
         self.assertEqual(obj1.count(), obj2.count())
 
-        obj3 = Widget.a().take_kwargs(size='small', color='blue')
+        obj3 = Widget.objects.all().take_kwargs(size='small', color='blue')
 
         self.assertQuerysetEqual(obj1,
                                  obj3,
@@ -37,7 +34,7 @@ class ScopingTests(TestCase):
 
     def test_passing_kwargs(self):
         obj1 = Widget.objects.filter(color='blue')
-        obj2 = Widget.a().take_kwargs(color='blue')
+        obj2 = Widget.objects.all().take_kwargs(color='blue')
 
         self.assertQuerysetEqual(obj1,
                                  obj2,
@@ -48,7 +45,7 @@ class ScopingTests(TestCase):
     def test_passing_many_args(self):
         obj1 = Widget.objects.filter(color='blue',
                                      size='small')
-        obj2 = Widget.a().take_more_args('blue', 'small')
+        obj2 = Widget.objects.all().take_more_args('blue', 'small')
 
         self.assertQuerysetEqual(obj1,
                                  obj2,
@@ -58,7 +55,7 @@ class ScopingTests(TestCase):
 
     def test_passing_args(self):
         obj1 = Widget.objects.filter(color='blue')
-        obj2 = Widget.a().take_args('blue')
+        obj2 = Widget.objects.all().take_args('blue')
 
         self.assertQuerysetEqual(obj1,
                                  obj2,
@@ -68,10 +65,10 @@ class ScopingTests(TestCase):
 
     def test_no_scope_registered(self):
         with self.assertRaises(AttributeError):
-            Widget.a().not_a_scope()
+            Widget.objects.all().not_a_scope()
 
     def test_redundant_chain(self):
-        obj1 = Widget.a().basic_query_widget()
+        obj1 = Widget.objects.all().basic_query_widget()
         obj2 = obj1.basic_query_widget()
 
         self.assertQuerysetEqual(obj1,
@@ -81,7 +78,7 @@ class ScopingTests(TestCase):
         self.assertEqual(obj1.count(), obj2.count())
         self.assertEqual(obj1.get(), obj2.get())
 
-        not_obj1 = Widget.a().not_basic_query_widget()
+        not_obj1 = Widget.objects.all().not_basic_query_widget()
         not_obj2 = not_obj1.not_basic_query_widget()
 
         self.assertQuerysetEqual(not_obj1,
@@ -94,7 +91,7 @@ class ScopingTests(TestCase):
         obj1 = Widget.objects.filter(color='blue',
                                      size='small',
                                      shape='circle')
-        obj2 = Widget.a().basic_query_widget()
+        obj2 = Widget.objects.all().basic_query_widget()
 
         self.assertQuerysetEqual(obj1,
                                  obj2,
@@ -106,7 +103,7 @@ class ScopingTests(TestCase):
         not_obj1 = Widget.objects.exclude(color='blue',
                                           size='small',
                                           shape='circle')
-        not_obj2 = Widget.a().not_basic_query_widget()
+        not_obj2 = Widget.objects.all().not_basic_query_widget()
 
         self.assertQuerysetEqual(not_obj1,
                                  not_obj2,
@@ -118,7 +115,7 @@ class ScopingTests(TestCase):
         obj1 = Widget.objects.filter(color='blue') \
                              .filter(size='small') \
                              .filter(shape='circle')
-        obj2 = Widget.a().blue().small().circle()
+        obj2 = Widget.objects.all().blue().small().circle()
 
         self.assertQuerysetEqual(obj1,
                                  obj2,
@@ -130,7 +127,7 @@ class ScopingTests(TestCase):
         not_obj1 = Widget.objects.exclude(color='blue') \
                                  .exclude(size='small') \
                                  .exclude(shape='circle')
-        not_obj2 = Widget.a().not_blue().not_small().not_circle()
+        not_obj2 = Widget.objects.all().not_blue().not_small().not_circle()
 
         self.assertQuerysetEqual(not_obj1,
                                  not_obj2,
@@ -140,7 +137,7 @@ class ScopingTests(TestCase):
 
     def test_query_blue(self):
         obj1 = Widget.objects.filter(color='blue')
-        obj2 = Widget.a().blue()
+        obj2 = Widget.objects.all().blue()
 
         self.assertEqual(obj1.count(), obj2.count())
         self.assertQuerysetEqual(obj1,
@@ -149,7 +146,7 @@ class ScopingTests(TestCase):
                                  ordered=False)
 
         not_obj1 = Widget.objects.exclude(color='blue')
-        not_obj2 = Widget.a().not_blue()
+        not_obj2 = Widget.objects.all().not_blue()
 
         self.assertEqual(not_obj1.count(), not_obj2.count())
         self.assertQuerysetEqual(not_obj1,
@@ -161,7 +158,7 @@ class ScopingTests(TestCase):
         import datetime
 
         obj1 = Widget.objects.filter(used_on__lte=datetime.date(2000, 1, 1))
-        obj2 = Widget.a().before_y2k()
+        obj2 = Widget.objects.all().before_y2k()
 
         self.assertQuerysetEqual(obj1,
                                  obj2,
@@ -170,7 +167,7 @@ class ScopingTests(TestCase):
         self.assertEqual(obj1.count(), obj2.count())
 
         not_obj1 = Widget.objects.exclude(used_on__lte=datetime.date(2000, 1, 1))
-        not_obj2 = Widget.a().not_before_y2k()
+        not_obj2 = Widget.objects.all().not_before_y2k()
 
         self.assertQuerysetEqual(not_obj1,
                                  not_obj2,
@@ -182,7 +179,7 @@ class ScopingTests(TestCase):
         import datetime
 
         obj1 = Widget.objects.filter(used_on__gte=datetime.date(2000, 1, 1))
-        obj2 = Widget.a().after_y2k()
+        obj2 = Widget.objects.all().after_y2k()
 
         self.assertQuerysetEqual(obj1,
                                  obj2,
@@ -191,7 +188,7 @@ class ScopingTests(TestCase):
         self.assertEqual(obj1.count(), obj2.count())
 
         not_obj1 = Widget.objects.exclude(used_on__gte=datetime.date(2000, 1, 1))
-        not_obj2 = Widget.a().not_after_y2k()
+        not_obj2 = Widget.objects.all().not_after_y2k()
 
         self.assertQuerysetEqual(not_obj1,
                                  not_obj2,
