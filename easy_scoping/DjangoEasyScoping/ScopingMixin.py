@@ -13,11 +13,9 @@ class ScopingMixin(object):
     @classmethod
     def check_names(cls, name):
         if name in cls.scopes():
-            print('CATCH THIS STATEMENT', name)
             raise AttributeError('%s already has a scope named %s' %(cls, name))
 
         if name in cls.aggregates():
-            print('CATCH THIS STATEMENT', name)
             raise AttributeError('%s already has an aggregate named %s' %(cls, name))
 
     @classmethod
