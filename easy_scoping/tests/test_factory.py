@@ -40,15 +40,36 @@ class ScopingMixinTests(TestCase):
                                  transform=lambda x: x,
                                  ordered=False)
 
-    def test_not_scope(self):
+    def test_not_scope_agg(self):
         with self.assertRaises(AttributeError):
             Widget.objects.all().not_a_scope()
 
     def test_get_scope(self):
-        obj2 = Widget.objects.all().blue()
-        obj3 = Widget.get_scope('blue')
+        obj1 = Widget.objects.all().blue()
+
+        # this returns the scope function then to test we execute
+        obj2 = Widget.get_scope('blue')()
+
+        self.assertQuerysetEqual(obj1,
+                                 obj2,
+                                 transform=lambda x: x,
+                                 ordered=False)
+
+        obj3 = Widget.objects.all().get_scope('blue')()
 
         self.assertQuerysetEqual(obj2,
                                  obj3,
                                  transform=lambda x: x,
                                  ordered=False)
+
+    def test_get_aggregate(self):
+        obj1 = Widget.objects.all().num_blue()
+
+        # this returns the aggregate function then to test we execute
+        obj2 = Widget.get_aggregate('num_blue')()
+
+        self.assertEqual(obj1, obj2)
+
+        obj3 = Widget.objects.all().get_aggregate('num_blue')()
+
+        self.assertEqual(obj2, obj3)

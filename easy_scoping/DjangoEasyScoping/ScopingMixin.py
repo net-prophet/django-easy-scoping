@@ -23,7 +23,6 @@ class ScopingMixin(object):
             setattr(cls, '__scopes__', dict())
         return cls.__scopes__
 
-    # This method fails, this is me working on fixing it
     @classmethod
     def get_scope(cls, name):
         if hasattr(cls, '__scopes__') and name in cls.scopes():
@@ -35,11 +34,10 @@ class ScopingMixin(object):
             setattr(cls, '__aggregates__', dict())
         return cls.__aggregates__
 
-    # This method also fails, this is the code given from you
     @classmethod
     def get_aggregate(cls, name):
         if hasattr(cls, '__aggregates__') and name in cls.aggregates():
-            return cls.__aggregates__[name]
+            return getattr(cls.objects.all(), name)
 
     @classmethod
     def register_scope(cls, name, func):
