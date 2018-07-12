@@ -3,10 +3,17 @@ class ScopingQuerySet(models.QuerySet):
     def __getattr__(self, attr):
         for plugin in ['scopes', 'aggregates']:
             if attr in getattr(self.model, '__%s__'%plugin):
-                def scoped_query(*args, **kwargs):
+                def plugin_query(*args, **kwargs):
                     return getattr(self.model, '__%s__'%plugin)[attr](self, *args, **kwargs)
-                return scoped_query
+                return plugin_query
         raise AttributeError('Queryset for %s has no attribute %s'%(self.model, attr))
+
+    def get_scope(self, name):
+        return self.model.get_scope(name)
+
+    def get_aggregate(self, name):
+        return self.model.get_aggregate(name)
+
 
 class ScopingMixin(object):
 
@@ -16,12 +23,11 @@ class ScopingMixin(object):
             setattr(cls, '__scopes__', dict())
         return cls.__scopes__
 
+    # This method fails, this is me working on fixing it
     @classmethod
     def get_scope(cls, name):
         if hasattr(cls, '__scopes__') and name in cls.scopes():
-            print(cls.__scopes__)
-            print(dir(cls))
-            return cls.__scopes__[name]
+            return getattr(cls.objects.all(), name)
 
     @classmethod
     def aggregates(cls):
@@ -29,9 +35,10 @@ class ScopingMixin(object):
             setattr(cls, '__aggregates__', dict())
         return cls.__aggregates__
 
+    # This method also fails, this is the code given from you
     @classmethod
     def get_aggregate(cls, name):
-        if hasattr(cls, '__aggregates__')and name in cls.aggregates():
+        if hasattr(cls, '__aggregates__') and name in cls.aggregates():
             return cls.__aggregates__[name]
 
     @classmethod

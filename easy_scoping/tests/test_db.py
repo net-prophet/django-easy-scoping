@@ -1,8 +1,7 @@
-# The purpose of these tests are just to make sure our
-# django db is set up correctly with our models.
+import datetime
 from django.test import TestCase
 from widgets.models import Widget
-import datetime
+from purchases.models import Purchase
 
 
 class WidgetTests(TestCase):
@@ -22,6 +21,7 @@ class WidgetTests(TestCase):
     def test_get_name(self):
         obj = Widget.objects.get(name='testwidget')
         self.assertEqual(obj.get_name(), 'testwidget')
+        self.assertEqual(str(obj), 'testwidget')
 
     def test_get_color(self):
         obj = Widget.objects.get(name='testwidget')
@@ -35,17 +35,12 @@ class WidgetTests(TestCase):
         obj = Widget.objects.get(name='testwidget')
         self.assertEqual(obj.get_shape(), 'Rectangle')
 
-    def test_get_used_on(self):
-        obj = Widget.objects.get(name='testwidget')
-        self.assertEqual(obj.get_used_on(), datetime.date.today())
-
     def test_all(self):
         obj = Widget.objects.get(name='testwidget')
         self.assertEqual(obj.get_name(), 'testwidget')
         self.assertEqual(obj.get_color(), 'Black')
         self.assertEqual(obj.get_size(), 'Small')
         self.assertEqual(obj.get_shape(), 'Rectangle')
-        self.assertEqual(obj.get_used_on(), datetime.date.today())
 
     def test_create_new(self):
         obj = Widget.objects.create(name='otherwidget',
@@ -59,4 +54,62 @@ class WidgetTests(TestCase):
         self.assertEqual(other.get_color(), 'Red')
         self.assertEqual(other.get_size(), 'Large')
         self.assertEqual(other.get_shape(), 'Triangle')
-        self.assertEqual(other.get_used_on(), datetime.date.today())
+
+
+class PurchaseTests(TestCase):
+
+    def setUp(self):
+        widg1 = Widget(name='testwidget',
+                       color='Black',
+                       size='Small',
+                       shape='Rectangle')
+        widg1.save()
+        widg2 = Widget(name='dummywidget',
+                       color='Green',
+                       size='Medium',
+                       shape='Ellipse')
+        widg2.save()
+        purch1 = Purchase()
+        purch1.save()
+        purch1.items.add(widg1)
+        purch1.items.add(widg2)
+        purch1.save()
+
+    def test_items_added(self):
+        purch1 = Purchase.objects.first()
+        self.assertQuerysetEqual(purch1.get_items(),
+                                 Widget.objects.all(),
+                                 transform=lambda x: x,
+                                 ordered=False)
+
+    def test_correct_cost(self):
+        purch1 = Purchase.objects.first()
+        widg1 = Widget.objects.get(name='testwidget')
+        widg2 = Widget.objects.get(name='dummywidget')
+        pur_cost = purch1.get_cost()
+        widg_cost = widg1.get_cost() + widg2.get_cost()
+        self.assertEqual(pur_cost, widg_cost)
+
+    def test_item_count(self):
+        purch1 = Purchase.objects.first()
+        self.assertEqual(purch1.get_item_count(), Widget.objects.all().count())
+
+    def test_sale_date(self):
+        purch1 = Purchase.objects.first()
+        self.assertEqual(purch1.get_sale_date().date(),
+                         datetime.datetime.now().date())
+
+    def test_sale_price_profit(self):
+        purch1 = Purchase.objects.first()
+        pur_sale_price = purch1.get_sale_price()
+
+        widg1 = Widget.objects.get(name='testwidget')
+        widg2 = Widget.objects.get(name='dummywidget')
+        widg_cost = widg1.get_cost() + widg2.get_cost()
+
+        widg_sale_price = round(widg_cost * 1.1, 2)
+        self.assertEqual(pur_sale_price, widg_sale_price)
+
+        pur_profit = purch1.get_profit()
+        widg_profit = round(widg_cost * 0.1, 2)
+        self.assertEqual(pur_profit, widg_profit)
