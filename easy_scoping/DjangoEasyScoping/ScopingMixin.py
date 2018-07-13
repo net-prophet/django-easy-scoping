@@ -1,10 +1,10 @@
 from django.db import models
 class ScopingQuerySet(models.QuerySet):
     def __getattr__(self, attr):
-        for plugin in ['scopes', 'aggregates']:
-            if attr in getattr(self.model, '__%s__'%plugin):
+        for plugin in [self.model.scopes(), self.model.aggregates()]:
+            if attr in plugin:
                 def plugin_query(*args, **kwargs):
-                    return getattr(self.model, '__%s__'%plugin)[attr](self, *args, **kwargs)
+                    return plugin[attr](self, *args, **kwargs)
                 return plugin_query
         raise AttributeError('Queryset for %s has no attribute %s'%(self.model, attr))
 

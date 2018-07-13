@@ -2,6 +2,7 @@ import datetime
 from django.test import TestCase
 from widgets.models import Widget
 from purchases.models import Purchase
+from customers.models import Customer
 
 
 class WidgetTests(TestCase):
@@ -69,7 +70,11 @@ class PurchaseTests(TestCase):
                        size='Medium',
                        shape='Ellipse')
         widg2.save()
-        purch1 = Purchase()
+        cust = Customer.objects.create(name='testcust',
+                                       state='Florida',
+                                       gender='M',
+                                       age='28')
+        purch1 = Purchase(customer=cust)
         purch1.save()
         purch1.items.add(widg1)
         purch1.items.add(widg2)
