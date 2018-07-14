@@ -5,11 +5,11 @@ title: API
 
 ## ScopingMixin
 
-### Scope
+### register_scope
 ```python
-scope(name, [functions])
+register_scope(name, [functions])
 ```
-[source](http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/ScopingMixin.py#L32-L47)
+[source](http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/DjangoEasyScoping/ScopingMixin.py#L42-L62)
 
 Registers scopes for a Django model. These scopes can be used on their own and are also 
 chainable with both other scopes and typical Django querysets.
@@ -27,90 +27,47 @@ name (*String*): Name of scope and calling method.
 **Example:**
 
 ```python
-Widget.scope('scope_example', lambda queryset: queryset.filter(color='blue'))
+Purchase.register_scope('millenial', 
+                        lambda queryset: queryset.filter(customer__age__gte=22)
+                                                 .filter(customer__age__lte=37))
+>>>> Purchase.objects.all().millenial()
+<ScopingQuerySet [ <Purchase: Purchase object (1)>, ... ]>
 ```
 ---
 
-### a
+### register_aggregate
 
 ```python
-a()
+register_aggregate(name, [functions])
 ```
-[source](http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/ScopingMixin.py#L21-L23)
+[source](http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/DjangoEasyScoping/ScopingMixin.py#L64-L84)
 
-A helper method to shorten the queryset `cls.objects.all()` syntax. Here,
-`objects` is the name of the `ScopingQuerySet` which was overridden on the
-Django model. 
-
-**Returns:**
-
-(*Queryset*): Returns the resultant `.all()` queryset.
-
-**Example:**
-
-```python
-Widget.a()
-```
----
-
-## ScopingQuerySet
-
-### f
-
-```python
-f(*args, **kwargs)
-```
-[source](http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/ScopingMixin.py#L13-L14)
-
-A helper method to shorten the syntax of `.filter()`.
+Registers aggregates for a Django model. 
 
 **Arguments:**
 
-*args : Arguments needed for the functions registered with `.scope()`.
+name (*String*): Name of aggregate and calling method.
 
-**kargs : Keyword arguments needed for the functions registered with `.scope()`.
+[functions] (...*): Function(s) which will be called when this aggregate is called.
 
 **Returns:**
 
-(*Queryset*): The resultant queryset.
+{*Dictionary*}: Returns the resultant dictionary
 
 **Example:**
 
 ```python
-Widget.a().f(color='blue')
+Purchase.register_aggregate('data_last_days', 
+                            lambda queryset, days:
+                            queryset.filter(sale_date__gte=datetime.now() - timedelta(days=days))
+                                    .annotate(item_count=Count('customer'))
+                                    .aggregate(total_sales=Count('customer'),
+                                               average_items_per_sale=Avg('item_count'),
+                                               total_profit=Sum('profit'),
+                                               average_profit=Avg('profit'))
+                            )
 
-A more typical use case would be when registering scopes.
-
-Widget.scope('scope_example', lambda queryset: queryset.f(color='blue'))
-```
----
-
-### e
-
-```python
-e(*args, **kwargs)
-```
-[source](http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/ScopingMixin.py#L13-L14)
-
-A helper method to shorten the syntax of `.exclude()`.
-
-**Arguments:**
-
-*args : Arguments needed for the functions registered with `.scope()`.
-
-**kargs : Keyword arguments needed for the functions registered with `.scope()`.
-
-**Returns:**
-
-(*Queryset*): The resultant queryset.
-
-**Example:**
-
-```python
-Widget.a().e(color='blue')
-
-A more typical use case would be when registering scopes.
-
-Widget.scope('scope_example', lambda queryset: queryset.e(color='blue'))
+>>>> Purchase.objects.all().data_last_days(90)
+{'average_items_per_sale': 4, 'total_sales': 158, 'average_profit': 1120.55, 'total_profit': 117047.60}
 ```
 ---

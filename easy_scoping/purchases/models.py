@@ -1,11 +1,12 @@
+import pytz
 import django
 from django.db import models
-from django.db.models import Sum
+from .state_regions import NORTHEAST, MIDWEST, SOUTH, WEST
+from django.db.models import Sum, Count, Avg
 from widgets.models import Widget
 from customers.models import Customer
 from datetime import datetime as dt, timedelta as td
 from DjangoEasyScoping.ScopingMixin import ScopingMixin, ScopingQuerySet
-
 
 
 class Purchase(ScopingMixin, models.Model):
@@ -53,16 +54,27 @@ class Purchase(ScopingMixin, models.Model):
             self.set_profit()
         super(Purchase, self).save(*args, **kwargs)
 
-Purchase.register_aggregate('profit_last_days',
-                            lambda qs, d: round(
-                                qs.filter(sale_date__gte=dt.now() - td(days=d))
-                                  .aggregate(x=Sum('profit'))['x'])
-                            )
+Purchase.register_aggregate('data_last_days',
+        lambda qs, days:
+                qs.filter(sale_date__gte=dt.utcnow().replace(tzinfo=pytz.utc) - td(days=days))
+                .annotate(item_count=Count('items'))
+                .aggregate(total_sales=Count('customer'),
+                           average_items_per_sale=Avg('item_count'),
+                           total_profit=Sum('profit'),
+                           average_profit=Avg('profit'))
+                           )
 
-'''
+Purchase.register_scope('senior', lambda qs: qs.filter(customer__age__gte=65))
+Purchase.register_scope('millenial', lambda qs: qs.filter(customer__age__gte=22)
+                                                  .filter(customer__age__lte=37))
 
-Purchase.register_aggregate('test',
-                            lambda qs, d, **kwargs: round(
-                                sum_field_last_days(qs, d, **kwargs))
-                            )
-'''
+Purchase.register_scope('male', lambda qs: qs.filter(customer__gender__in='M'))
+Purchase.register_scope('female', lambda qs: qs.filter(customer__gender__in='F'))
+
+Purchase.register_scope('northeast', lambda qs: qs.filter(**NORTHEAST))
+
+Purchase.register_scope('midwest', lambda qs: qs.filter(**MIDWEST))
+
+Purchase.register_scope('southern', lambda qs: qs.filter(**SOUTH))
+
+Purchase.register_scope('western', lambda qs: qs.filter(**WEST))
