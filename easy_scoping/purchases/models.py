@@ -57,12 +57,12 @@ class Purchase(ScopingMixin, models.Model):
 Purchase.register_aggregate('data_last_days',
         lambda qs, days:
                 qs.filter(sale_date__gte=dt.utcnow().replace(tzinfo=pytz.utc) - td(days=days))
-                .annotate(item_count=Count('items'))
-                .aggregate(total_sales=Count('customer'),
-                           average_items_per_sale=Avg('item_count'),
-                           total_profit=Sum('profit'),
-                           average_profit=Avg('profit'))
-                           )
+                  .annotate(item_count=Count('items'))
+                  .aggregate(total_sales=Count('customer'),
+                             average_items_per_sale=Avg('item_count'),
+                             total_profit=Sum('profit'),
+                             average_profit=Avg('profit'))
+                          )
 
 Purchase.register_scope('senior', lambda qs: qs.filter(customer__age__gte=65))
 Purchase.register_scope('millenial', lambda qs: qs.filter(customer__age__gte=22)

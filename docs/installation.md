@@ -14,7 +14,7 @@ from ScopingMixin import ScopingMixin, ScopingQuerySet
 
 Mix `ScopingMixin` in with the Django model(s) you'd like to create scopes for.
 ```python
-class Widget(ScopingMixin, models.Model):
+class Purchase(ScopingMixin, models.Model):
 ```
 
 Override the Queryset for that model using `ScopingQuerySet`.
@@ -34,19 +34,31 @@ something other than `objects`, for instance:
 other_name = ScopingQuerySet.as_manager()
 ```
 
-Then simply open `ScopingMixin.py` and edit the following line
+Then simply open `ScopingMixin.py` and edit the following methods
 ```python
 class ScopingMixin(object):
 
     @classmethod
-    def a(self):
-        return self.objects.all()
+    def get_scope(cls, name)
+        if hasattr(cls, '__scopes__') and name in cls.scopes():
+            return getattr(cls.objects.all(), name)
+
+    @classmethod
+    def get_aggregate(cls, name)
+        if hasattr(cls, '__aggregate__') and name in cls.aggregates():
+            return getattr(cls.objects.all(), name)
 ```
  becomes
 ```python
 class ScopingMixin(object):
 
     @classmethod
-    def a(self):
-        return self.other_name.all()
+    def get_scope(cls, name)
+        if hasattr(cls, '__scopes__') and name in cls.scopes():
+            return getattr(cls.other_name.all(), name)
+
+    @classmethod
+    def get_aggregate(cls, name)
+        if hasattr(cls, '__aggregate__') and name in cls.aggregates():
+            return getattr(cls.other_name.all(), name)
 ```

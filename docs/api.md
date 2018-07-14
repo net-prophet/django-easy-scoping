@@ -59,12 +59,12 @@ name (*String*): Name of aggregate and calling method.
 ```python
 Purchase.register_aggregate('data_last_days', 
                             lambda queryset, days:
-                            queryset.filter(sale_date__gte=datetime.now() - timedelta(days=days))
-                                    .annotate(item_count=Count('customer'))
-                                    .aggregate(total_sales=Count('customer'),
-                                               average_items_per_sale=Avg('item_count'),
-                                               total_profit=Sum('profit'),
-                                               average_profit=Avg('profit'))
+                                queryset.filter(sale_date__gte=datetime.now() - timedelta(days=days))
+                                        .annotate(item_count=Count('items'))
+                                        .aggregate(total_sales=Count('customer'),
+                                                   average_items_per_sale=Avg('item_count'),
+                                                   total_profit=Sum('profit'),
+                                                   average_profit=Avg('profit'))
                             )
 
 >>>> Purchase.objects.all().data_last_days(90)
