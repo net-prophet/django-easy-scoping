@@ -1,8 +1,8 @@
 <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>API · Django Easy Scoping</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## ScopingMixin"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="API · Django Easy Scoping"/><meta property="og:type" content="website"/><meta property="og:url" content="https://net-prophet.github.io/django-easy-scoping/index.html"/><meta property="og:description" content="## ScopingMixin"/><meta property="og:image" content="https://net-prophet.github.io/django-easy-scoping/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://net-prophet.github.io/django-easy-scoping/img/docusaurus.png"/><link rel="shortcut icon" href="/django-easy-scoping/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/django-easy-scoping/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/django-easy-scoping/"><img class="logo" src="/django-easy-scoping/img/NPlogo.svg" alt="Django Easy Scoping"/><h2 class="headerTitleWithLogo">Django Easy Scoping</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/django-easy-scoping/docs/installation.html" target="_self">Installation</a></li><li class=""><a href="/django-easy-scoping/docs/usage.html" target="_self">Usage</a></li><li class="siteNavItemActive"><a href="/django-easy-scoping/docs/api.html" target="_self">API</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">API</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="scopingmixin"></a><a href="#scopingmixin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ScopingMixin</h2>
-<h3><a class="anchor" aria-hidden="true" id="scope"></a><a href="#scope" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scope</h3>
-<pre><code class="hljs css languages- python">scope(name, [functions])
+<h3><a class="anchor" aria-hidden="true" id="register-scope"></a><a href="#register-scope" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>register_scope</h3>
+<pre><code class="hljs css languages- python">register_scope(name, [functions])
 </code></pre>
-<p><a href="http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/ScopingMixin.py#L32-L47">source</a></p>
+<p><a href="http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/DjangoEasyScoping/ScopingMixin.py#L42-L62">source</a></p>
 <p>Registers scopes for a Django model. These scopes can be used on their own and are also
 chainable with both other scopes and typical Django querysets.</p>
 <p><strong>Arguments:</strong></p>
@@ -11,57 +11,36 @@ chainable with both other scopes and typical Django querysets.</p>
 <p><strong>Returns:</strong></p>
 <p>(<em>Queryset</em>): Returns the resultant queryset.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="hljs css languages- python">Widget.scope(<span class="hljs-string">'scope_example'</span>, <span class="hljs-keyword">lambda</span> queryset: queryset.filter(color=<span class="hljs-string">'blue'</span>))
+<pre><code class="hljs css languages- python">Purchase.register_scope(<span class="hljs-string">'millenial'</span>, 
+                        <span class="hljs-keyword">lambda</span> queryset: queryset.filter(customer__age__gte=<span class="hljs-number">22</span>)
+                                                 .filter(customer__age__lte=<span class="hljs-number">37</span>))
+&gt;&gt;&gt;&gt; Purchase.objects.all().millenial()
+&lt;ScopingQuerySet [ &lt;Purchase: Purchase object (<span class="hljs-number">1</span>)&gt;, ... ]&gt;
 </code></pre>
 <hr>
-<h3><a class="anchor" aria-hidden="true" id="a"></a><a href="#a" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>a</h3>
-<pre><code class="hljs css languages- python">a()
+<h3><a class="anchor" aria-hidden="true" id="register-aggregate"></a><a href="#register-aggregate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>register_aggregate</h3>
+<pre><code class="hljs css languages- python">register_aggregate(name, [functions])
 </code></pre>
-<p><a href="http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/ScopingMixin.py#L21-L23">source</a></p>
-<p>A helper method to shorten the queryset <code>cls.objects.all()</code> syntax. Here,
-<code>objects</code> is the name of the <code>ScopingQuerySet</code> which was overridden on the
-Django model.</p>
-<p><strong>Returns:</strong></p>
-<p>(<em>Queryset</em>): Returns the resultant <code>.all()</code> queryset.</p>
-<p><strong>Example:</strong></p>
-<pre><code class="hljs css languages- python">Widget.a()
-</code></pre>
-<hr>
-<h2><a class="anchor" aria-hidden="true" id="scopingqueryset"></a><a href="#scopingqueryset" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ScopingQuerySet</h2>
-<h3><a class="anchor" aria-hidden="true" id="f"></a><a href="#f" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>f</h3>
-<pre><code class="hljs css languages- python">f(*args, **kwargs)
-</code></pre>
-<p><a href="http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/ScopingMixin.py#L13-L14">source</a></p>
-<p>A helper method to shorten the syntax of <code>.filter()</code>.</p>
+<p><a href="http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/DjangoEasyScoping/ScopingMixin.py#L64-L84">source</a></p>
+<p>Registers aggregates for a Django model.</p>
 <p><strong>Arguments:</strong></p>
-<p>*args : Arguments needed for the functions registered with <code>.scope()</code>.</p>
-<p>**kargs : Keyword arguments needed for the functions registered with <code>.scope()</code>.</p>
+<p>name (<em>String</em>): Name of aggregate and calling method.</p>
+<p>[functions] (...*): Function(s) which will be called when this aggregate is called.</p>
 <p><strong>Returns:</strong></p>
-<p>(<em>Queryset</em>): The resultant queryset.</p>
+<p>{<em>Dictionary</em>}: Returns the resultant dictionary</p>
 <p><strong>Example:</strong></p>
-<pre><code class="hljs css languages- python">Widget.a().f(color=<span class="hljs-string">'blue'</span>)
+<pre><code class="hljs css languages- python">Purchase.register_aggregate(<span class="hljs-string">'data_last_days'</span>, 
+                            <span class="hljs-keyword">lambda</span> queryset, days:
+                            queryset.filter(sale_date__gte=datetime.now() - timedelta(days=days))
+                                    .annotate(item_count=Count(<span class="hljs-string">'customer'</span>))
+                                    .aggregate(total_sales=Count(<span class="hljs-string">'customer'</span>),
+                                               average_items_per_sale=Avg(<span class="hljs-string">'item_count'</span>),
+                                               total_profit=Sum(<span class="hljs-string">'profit'</span>),
+                                               average_profit=Avg(<span class="hljs-string">'profit'</span>))
+                            )
 
-A more typical use case would be when registering scopes.
-
-Widget.scope(<span class="hljs-string">'scope_example'</span>, <span class="hljs-keyword">lambda</span> queryset: queryset.f(color=<span class="hljs-string">'blue'</span>))
+&gt;&gt;&gt;&gt; Purchase.objects.all().data_last_days(<span class="hljs-number">90</span>)
+{<span class="hljs-string">'average_items_per_sale'</span>: <span class="hljs-number">4</span>, <span class="hljs-string">'total_sales'</span>: <span class="hljs-number">158</span>, <span class="hljs-string">'average_profit'</span>: <span class="hljs-number">1120.55</span>, <span class="hljs-string">'total_profit'</span>: <span class="hljs-number">117047.60</span>}
 </code></pre>
 <hr>
-<h3><a class="anchor" aria-hidden="true" id="e"></a><a href="#e" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>e</h3>
-<pre><code class="hljs css languages- python">e(*args, **kwargs)
-</code></pre>
-<p><a href="http://www.github.com/net-prophet/django-easy-scoping/blob/master/easy_scoping/ScopingMixin.py#L13-L14">source</a></p>
-<p>A helper method to shorten the syntax of <code>.exclude()</code>.</p>
-<p><strong>Arguments:</strong></p>
-<p>*args : Arguments needed for the functions registered with <code>.scope()</code>.</p>
-<p>**kargs : Keyword arguments needed for the functions registered with <code>.scope()</code>.</p>
-<p><strong>Returns:</strong></p>
-<p>(<em>Queryset</em>): The resultant queryset.</p>
-<p><strong>Example:</strong></p>
-<pre><code class="hljs css languages- python">Widget.a().e(color=<span class="hljs-string">'blue'</span>)
-
-A more typical use case would be when registering scopes.
-
-Widget.scope(<span class="hljs-string">'scope_example'</span>, <span class="hljs-keyword">lambda</span> queryset: queryset.e(color=<span class="hljs-string">'blue'</span>))
-</code></pre>
-<hr>
-</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#scopingmixin">ScopingMixin</a><ul class="toc-headings"><li><a href="#scope">Scope</a></li><li><a href="#a">a</a></li></ul></li><li><a href="#scopingqueryset">ScopingQuerySet</a><ul class="toc-headings"><li><a href="#f">f</a></li><li><a href="#e">e</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Net Prophet Technologies </section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#scopingmixin">ScopingMixin</a><ul class="toc-headings"><li><a href="#register-scope">register_scope</a></li><li><a href="#register-aggregate">register_aggregate</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Net Prophet Technologies </section></footer></div></body></html>
