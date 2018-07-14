@@ -4,7 +4,7 @@
 <pre><code class="hljs css languages- python"><span class="hljs-keyword">from</span> ScopingMixin <span class="hljs-keyword">import</span> ScopingMixin, ScopingQuerySet
 </code></pre>
 <p>Mix <code>ScopingMixin</code> in with the Django model(s) you'd like to create scopes for.</p>
-<pre><code class="hljs css languages- python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Widget</span><span class="hljs-params">(ScopingMixin, models.Model)</span>:</span>
+<pre><code class="hljs css languages- python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Purchase</span><span class="hljs-params">(ScopingMixin, models.Model)</span>:</span>
 </code></pre>
 <p>Override the Queryset for that model using <code>ScopingQuerySet</code>.</p>
 <pre><code class="hljs css languages- python">    objects = ScopingQuerySet.as_manager()
@@ -16,18 +16,30 @@ You only need to take action if you'd like to name the ScopingQuerySet override
 something other than <code>objects</code>, for instance:</p>
 <pre><code class="hljs css languages- python">other_name = ScopingQuerySet.as_manager()
 </code></pre>
-<p>Then simply open <code>ScopingMixin.py</code> and edit the following line</p>
-<pre><code class="hljs css languages- python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ScopingMixin</span><span class="hljs-params">(object)</span>:</span>
+<p>Then simply open <code>ScopingMixin.py</code> and edit the following methods</p>
+<pre><code class="hljs css languages- python">class ScopingMixin(object):
 
-<span class="hljs-meta">    @classmethod</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">a</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.objects.all()
+    @classmethod
+    def get_scope(cls, name)
+        if hasattr(cls, '__scopes__') and name in cls.scopes():
+            return getattr(cls.objects.all(), name)
+
+    @classmethod
+    def get_aggregate(cls, name)
+        if hasattr(cls, '__aggregate__') and name in cls.aggregates():
+            return getattr(cls.objects.all(), name)
 </code></pre>
 <p>becomes</p>
-<pre><code class="hljs css languages- python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ScopingMixin</span><span class="hljs-params">(object)</span>:</span>
+<pre><code class="hljs css languages- python">class ScopingMixin(object):
 
-<span class="hljs-meta">    @classmethod</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">a</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.other_name.all()
+    @classmethod
+    def get_scope(cls, name)
+        if hasattr(cls, '__scopes__') and name in cls.scopes():
+            return getattr(cls.other_name.all(), name)
+
+    @classmethod
+    def get_aggregate(cls, name)
+        if hasattr(cls, '__aggregate__') and name in cls.aggregates():
+            return getattr(cls.other_name.all(), name)
 </code></pre>
 </span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#installation">Installation</a></li><li><a href="#implementing-with-existing-managers-querysets">Implementing with existing Managers/Querysets</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Net Prophet Technologies </section></footer></div></body></html>

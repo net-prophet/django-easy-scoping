@@ -31,12 +31,12 @@ chainable with both other scopes and typical Django querysets.</p>
 <p><strong>Example:</strong></p>
 <pre><code class="hljs css languages- python">Purchase.register_aggregate(<span class="hljs-string">'data_last_days'</span>, 
                             <span class="hljs-keyword">lambda</span> queryset, days:
-                            queryset.filter(sale_date__gte=datetime.now() - timedelta(days=days))
-                                    .annotate(item_count=Count(<span class="hljs-string">'customer'</span>))
-                                    .aggregate(total_sales=Count(<span class="hljs-string">'customer'</span>),
-                                               average_items_per_sale=Avg(<span class="hljs-string">'item_count'</span>),
-                                               total_profit=Sum(<span class="hljs-string">'profit'</span>),
-                                               average_profit=Avg(<span class="hljs-string">'profit'</span>))
+                                queryset.filter(sale_date__gte=datetime.now() - timedelta(days=days))
+                                        .annotate(item_count=Count(<span class="hljs-string">'items'</span>))
+                                        .aggregate(total_sales=Count(<span class="hljs-string">'customer'</span>),
+                                                   average_items_per_sale=Avg(<span class="hljs-string">'item_count'</span>),
+                                                   total_profit=Sum(<span class="hljs-string">'profit'</span>),
+                                                   average_profit=Avg(<span class="hljs-string">'profit'</span>))
                             )
 
 &gt;&gt;&gt;&gt; Purchase.objects.all().data_last_days(<span class="hljs-number">90</span>)
