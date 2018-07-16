@@ -1,134 +1,266 @@
 <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Usage · Django Easy Scoping</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Example Django Model located at bottom of page."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Usage · Django Easy Scoping"/><meta property="og:type" content="website"/><meta property="og:url" content="https://net-prophet.github.io/django-easy-scoping/index.html"/><meta property="og:description" content="Example Django Model located at bottom of page."/><meta property="og:image" content="https://net-prophet.github.io/django-easy-scoping/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://net-prophet.github.io/django-easy-scoping/img/docusaurus.png"/><link rel="shortcut icon" href="/django-easy-scoping/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/django-easy-scoping/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/django-easy-scoping/"><img class="logo" src="/django-easy-scoping/img/NPlogo.svg" alt="Django Easy Scoping"/><h2 class="headerTitleWithLogo">Django Easy Scoping</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/django-easy-scoping/docs/installation.html" target="_self">Installation</a></li><li class="siteNavItemActive"><a href="/django-easy-scoping/docs/usage.html" target="_self">Usage</a></li><li class=""><a href="/django-easy-scoping/docs/api.html" target="_self">API</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Usage</h1></header><article><div><span><p>Example Django Model located at bottom of page.</p>
 <h2><a class="anchor" aria-hidden="true" id="basic-usage"></a><a href="#basic-usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic Usage</h2>
 <h3><a class="anchor" aria-hidden="true" id="scoping"></a><a href="#scoping" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scoping</h3>
-<p>Now, Let's say we wanted to find all of the widgets in our database which were
-blue.</p>
+<p>Here are some simple examples just to see the syntax.</p>
+<p>Register the scope on <code>models.py</code>:</p>
+<pre><code class="hljs css languages- python">Widget.register_scope(<span class="hljs-string">'blue'</span>, <span class="hljs-keyword">lambda</span> qs: qs.filter(color=<span class="hljs-string">'blue'</span>))
+</code></pre>
 <p>Without easy scoping:</p>
 <pre><code class="hljs css languages- python">Widget.objects.filter(color=<span class="hljs-string">'blue'</span>)
 </code></pre>
 <p>With easy scoping:</p>
 <pre><code class="hljs css languages- python">Widget.a().blue()
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" id="scoping-multiple-fields"></a><a href="#scoping-multiple-fields" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scoping Multiple Fields</h3>
-<p>How about finding all of the widgets which are blue, small, and a circle.</p>
-<p>Without easy scoping:</p>
-<pre><code class="hljs css languages- python">Widget.objects.filter(color=<span class="hljs-string">'blue'</span>, size=<span class="hljs-string">'small'</span>, shape=<span class="hljs-string">'circle'</span>)
-</code></pre>
-<p>With easy scoping:</p>
-<pre><code class="hljs css languages- python">Widget.a().basic_filter_widget()
-</code></pre>
 <h3><a class="anchor" aria-hidden="true" id="chaining-scopes"></a><a href="#chaining-scopes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chaining Scopes</h3>
 <p>Let's look at that same query where we chain these calls instead.</p>
+<p>Register the scope on <code>models.py</code>:</p>
+<pre><code class="hljs css languages- python">Widget.register_scope(<span class="hljs-string">'blue'</span>, <span class="hljs-keyword">lambda</span> qs: qs.filter(color=<span class="hljs-string">'blue'</span>))
+Widget.register_scope(<span class="hljs-string">'small'</span>, <span class="hljs-keyword">lambda</span> qs: qs.filter(size=<span class="hljs-string">'small'</span>))
+Widget.register_scope(<span class="hljs-string">'circle'</span>, <span class="hljs-keyword">lambda</span> qs: qs.filter(shape=<span class="hljs-string">'circle'</span>))
+</code></pre>
 <p>Without easy scoping:</p>
 <pre><code class="hljs css languages- python">Widget.objects.filter(color=<span class="hljs-string">'blue'</span>).filter(size=<span class="hljs-string">'small'</span>).filter(shape=<span class="hljs-string">'circle'</span>)
 </code></pre>
 <p>With easy scoping:</p>
 <pre><code class="hljs css languages- python">Widget.a().blue().small().circle()
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" id="chaining-scopes-django-methods"></a><a href="#chaining-scopes-django-methods" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chaining Scopes + Django Methods</h3>
-<p>Of course, the return values of these scope methods are querysets so the
-following holds.</p>
-<pre><code class="hljs css languages- python">blue_objs = Widget.objects.filter(color=<span class="hljs-string">'blue'</span>)
-blue_small_objs = blue_objs.small()
-blue_small_circles = blue_small_objs.circle()
-</code></pre>
-<h3><a class="anchor" aria-hidden="true" id="exluding-scopes"></a><a href="#exluding-scopes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Exluding Scopes</h3>
-<p>You can exclude here too. Let's consider all blue, small, but not
-circle shaped objects.</p>
-<p>Without easy scoping:</p>
-<pre><code class="hljs css languages- python">Widget.objects.filter(color=<span class="hljs-string">'blue'</span>).filter(size=<span class="hljs-string">'small'</span>).exclude(shape=<span class="hljs-string">'circle'</span>)
-</code></pre>
-<p>With easy scoping:</p>
-<pre><code class="hljs css languages- python">Widget.a().blue().small().not_circle()
-</code></pre>
 <h3><a class="anchor" aria-hidden="true" id="using-other-queryset-methods"></a><a href="#using-other-queryset-methods" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using Other Queryset Methods</h3>
 <p>As the return value is a queryset we can perform other django operations on
 these querysets. The full list of operations can be found <a href="https://docs.djangoproject.com/en/2.0/ref/models/querysets/">here</a>.</p>
 <p>Let's consider ordering these by their color in ascending
 alphabetical order.</p>
-<pre><code class="hljs css languages- python">Widget.a().blue().small().not_circle().order_by(<span class="hljs-string">'color'</span>)
+<pre><code class="hljs css languages- python">Widget.a().blue().small().circle().order_by(<span class="hljs-string">'color'</span>)
 </code></pre>
-<h2><a class="anchor" aria-hidden="true" id="advanced-usage"></a><a href="#advanced-usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Usage</h2>
-<p>Using lambda functions, and that scopes take *args, **kwargs, you can create
-some really interesting scopes to simply your workflow.</p>
-<h3><a class="anchor" aria-hidden="true" id="arguments"></a><a href="#arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Arguments</h3>
-<p>You could have a scope that filters on colors but instead of having one for
-<code>blue</code> and one for <code>green</code> we can just have do something like this.</p>
-<pre><code class="hljs css languages- python">Widget.scope(<span class="hljs-string">'colors'</span>, <span class="hljs-keyword">lambda</span> queryset, value: queryset.f(color=value))
-<span class="hljs-comment"># Then this works for any color</span>
-Widget.a().color(<span class="hljs-string">'blue'</span>)
-</code></pre>
-<h3><a class="anchor" aria-hidden="true" id="multiple-arguments"></a><a href="#multiple-arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Multiple Arguments</h3>
-<p>You can also make scopes on more than one argument, let's check out one for
-color and size</p>
-<pre><code class="hljs css languages- python">Widget.scope(<span class="hljs-string">'color_size'</span>, <span class="hljs-keyword">lambda</span> queryset, c_value, s_value: queryset.f(color=value, size=s_value))
-<span class="hljs-comment"># Then you can just pass like this</span>
-Widget.a().color_size(<span class="hljs-string">'blue'</span>, <span class="hljs-string">'small'</span>)
-</code></pre>
-<h3><a class="anchor" aria-hidden="true" id="keyword-arguments"></a><a href="#keyword-arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Keyword Arguments</h3>
-<p>The problem with args is that you have to remember the order you set up when you
-defined the scope. You can just use kwargs instead!</p>
-<pre><code class="hljs css languages- python">Widget.scope(<span class="hljs-string">'foo'</span>, <span class="hljs-keyword">lambda</span> queryset, **kwargs: queryset.f(**kwargs))
-<span class="hljs-comment"># Then this works for any color</span>
-Widget.a().foo(color=<span class="hljs-string">'blue'</span>)
-</code></pre>
-<h3><a class="anchor" aria-hidden="true" id="multiple-keyword-arguments"></a><a href="#multiple-keyword-arguments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Multiple Keyword Arguments</h3>
-<p>With this you can just go nuts on filtering, but this is basically just using
-the actual <code>.filter()</code> method.</p>
-<pre><code class="hljs css languages- python">Widget.scope(<span class="hljs-string">'foo'</span>, <span class="hljs-keyword">lambda</span> queryset, **kwargs: queryset.f(**kwargs))
-<span class="hljs-comment"># Then this works for any color</span>
-Widget.a().foo(color=<span class="hljs-string">'blue'</span>, size=<span class="hljs-string">'small'</span>)
-</code></pre>
-<h2><a class="anchor" aria-hidden="true" id="example-django-model"></a><a href="#example-django-model" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Django Model</h2>
-<pre><code class="hljs css languages- python">
+<h2><a class="anchor" aria-hidden="true" id="real-world-usage"></a><a href="#real-world-usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Real-World Usage</h2>
+<p>Consider the example models located at the bottom of the page. We have Customers
+who make many purchases and purchases who have many widgets.</p>
+<h3><a class="anchor" aria-hidden="true" id="scoping-example"></a><a href="#scoping-example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scoping Example</h3>
+<p>Register the scopes on <code>purchases/models.py</code>:</p>
+<pre><code class="hljs css languages- python">MIDWEST = {
+    <span class="hljs-string">'customer__state__in'</span>: (<span class="hljs-string">'Indiana'</span>, <span class="hljs-string">'Illinois'</span>, <span class="hljs-string">'Michigan'</span>, <span class="hljs-string">'Ohio'</span>,
+                            <span class="hljs-string">'Wisconsin'</span>, <span class="hljs-string">'Iowa'</span>, <span class="hljs-string">'Nebraska'</span>, <span class="hljs-string">'Kansas'</span>,
+                            <span class="hljs-string">'North Dakota'</span>, <span class="hljs-string">'Minnesota'</span>, <span class="hljs-string">'South Dakota'</span>, <span class="hljs-string">'Missouri'</span>,)
+}
 
+Purchase.register_scope(<span class="hljs-string">'male_seniors_midwest'</span>, 
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(customer__age__gte=<span class="hljs-number">65</span>)
+                                     .filter(customer__gender__in=<span class="hljs-string">'M'</span>)
+                                     .filter(**MIDWEST))
+
+Purchase.register_scope(<span class="hljs-string">'female_seniors_midwest'</span>, 
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(customer__age__gte=<span class="hljs-number">65</span>)
+                                     .filter(customer__gender__in=<span class="hljs-string">'F'</span>)
+                                     .filter(**MIDWEST))
+
+<span class="hljs-comment"># We can also just make one scope for this age/region combo which takes a gender</span>
+Purchase.register_scope(<span class="hljs-string">'gender_seniors_midwest'</span>, 
+                        <span class="hljs-keyword">lambda</span> qs, g: qs.filter(customer__age__gte=<span class="hljs-number">65</span>)
+                                        .filter(customer__gender__in=g)
+                                        .filter(**MIDWEST))
+
+<span class="hljs-comment"># Let's also make one for millenials</span>
+Purchase.register_scope(<span class="hljs-string">'gender_millenials_midwest'</span>, 
+                        <span class="hljs-keyword">lambda</span> qs, g: qs.filter(customer__age__gte=<span class="hljs-number">22</span>)
+                                        .filter(customer__age_lte=<span class="hljs-number">37</span>)
+                                        .filter(customer__gender__in=g)
+                                        .filter(**MIDWEST))
+</code></pre>
+<p>So now we have a scope for all customers of a particular gender, age, and
+geographical region.</p>
+<pre><code class="hljs css languages- python"><span class="hljs-meta">&gt;&gt;&gt; </span>Purchase.objects.all().male_seniors_midwest()
+&lt;ScopingQuerySet[&lt;Purchase: PurchaseObjects(<span class="hljs-number">1</span>)&gt;, ...]
+
+<span class="hljs-meta">&gt;&gt;&gt; </span>Purchase.objects.all().female_seniors_midwest()
+&lt;ScopingQuerySet[&lt;Purchase: PurchaseObjects(<span class="hljs-number">2</span>)&gt;, ...]
+
+<span class="hljs-comment"># Or using our gender taking scope</span>
+
+<span class="hljs-meta">&gt;&gt;&gt; </span>Purchase.objects.all().gender_seniors_midwest(<span class="hljs-string">'M'</span>)
+&lt;ScopingQuerySet[&lt;Purchase: PurchaseObjects(<span class="hljs-number">1</span>)&gt;, ...]
+<span class="hljs-meta">&gt;&gt;&gt; </span>Purchase.objects.all().gender_seniors_midwest(<span class="hljs-string">'F'</span>)
+&lt;ScopingQuerySet[&lt;Purchase: PurchaseObjects(<span class="hljs-number">2</span>)&gt;, ...]
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="aggregate-example"></a><a href="#aggregate-example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Aggregate Example</h3>
+<p>So now you've created some scopes and want a way to compare them!
+Well, let's register some aggregates!</p>
+<p>Register the aggregates on <code>purchases/models.py</code>:</p>
+<pre><code class="hljs css languages- python"><span class="hljs-keyword">import</span> pytz
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime <span class="hljs-keyword">as</span> dt, timedelta <span class="hljs-keyword">as</span> tdse.register_aggregate(<span class="hljs-string">'data_last_days'</span>,
+Purchase.register_aggregate(<span class="hljs-string">'data_last_days'</span>,
+                            <span class="hljs-keyword">lambda</span> qs, days: qs.filter(sale_date__gte=dt.utcnow().replace(tzinfo=pytz.utc) - td(days=days))
+                                               .annotate(item_count=Count(<span class="hljs-string">'items'</span>)) 
+                                               .aggregate(total_sales=Count(<span class="hljs-string">'customer'</span>),
+                                                          average_items_per_sale=Avg(<span class="hljs-string">'item_count'</span>),
+                                                          total_profit=Sum(<span class="hljs-string">'profit'</span>),
+                                                          average_profit=Avg(<span class="hljs-string">'profit'</span>))
+                            )
+</code></pre>
+<p>So here our aggregate is called on a queryset and takes as an argument a
+number of days. It then returns a queryset of all purchases from today back that
+many days. We then annotate each purchase with the item count for it (my example
+implementation randomly chooses between 1 and 9 items). Finally, we aggregate
+the total amount of sales over that date range, the average amount of items per
+sale, our total profit, and our average profit.</p>
+<pre><code class="hljs css languages- python"><span class="hljs-meta">&gt;&gt;&gt; </span>Purchase.objects.all().data_last_days(<span class="hljs-number">100</span>)
+{<span class="hljs-string">'total_sales'</span>: <span class="hljs-number">155</span>, <span class="hljs-string">'total_profit'</span>: <span class="hljs-number">174403.49</span>, <span class="hljs-string">'average_profit'</span>: <span class="hljs-number">1125.18</span>, <span class="hljs-string">'average_items_per_sale'</span>: <span class="hljs-number">4.9</span>}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="putting-it-together"></a><a href="#putting-it-together" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Putting it Together</h3>
+<p>Ok, so we've got some scopes and an aggregate function. Let's use them to
+compare!</p>
+<pre><code class="hljs css languages- python"><span class="hljs-meta">&gt;&gt;&gt; </span>Purchase.objects.all().male_seniors_midwest().data_last_days(<span class="hljs-number">100</span>)
+{<span class="hljs-string">'total_sales'</span>: <span class="hljs-number">6</span>, <span class="hljs-string">'total_profit'</span>: <span class="hljs-number">5313.0</span>, <span class="hljs-string">'average_profit'</span>: <span class="hljs-number">885.5</span>, <span class="hljs-string">'average_items_per_sale'</span>: <span class="hljs-number">3.83</span>}
+
+<span class="hljs-meta">&gt;&gt;&gt; </span>Purchase.objects.all().female_seniors_midwest().data_last_days(<span class="hljs-number">100</span>)
+{<span class="hljs-string">'total_sales'</span>: <span class="hljs-number">5</span>, <span class="hljs-string">'total_profit'</span>: <span class="hljs-number">6380.5</span>, <span class="hljs-string">'average_profit'</span>: <span class="hljs-number">1276.1</span>, <span class="hljs-string">'average_items_per_sale'</span>: <span class="hljs-number">5.6</span>}
+</code></pre>
+<p>So, from our data it seems like we aren't selling many widgets to seniors in the
+Northwest but when we do females are buying more items and returning much more
+profit!</p>
+<p>Let's check out millenials.</p>
+<pre><code class="hljs css languages- python"><span class="hljs-meta">&gt;&gt;&gt; </span>Purchase.objects.all().gender_millenials_midwest(<span class="hljs-string">'M'</span>).data_last_days(<span class="hljs-number">100</span>)
+{<span class="hljs-string">'total_sales'</span>: <span class="hljs-number">18</span>, <span class="hljs-string">'total_profit'</span>: <span class="hljs-number">24107.1</span>, <span class="hljs-string">'average_profit'</span>: <span class="hljs-number">4017.84</span>, <span class="hljs-string">'average_items_per_sale'</span>: <span class="hljs-number">7.98</span>}
+</code></pre>
+<p>So male millenials in the midwest are buying a lot of our products!</p>
+<h2><a class="anchor" aria-hidden="true" id="example-django-models"></a><a href="#example-django-models" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Django Models</h2>
+<p>These are the django models used in the examples above for your reference. You
+can find these on our github aswell.</p>
+<h3><a class="anchor" aria-hidden="true" id="widgets-modelspy"></a><a href="#widgets-modelspy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>widgets/models.py</h3>
+<pre><code class="hljs css languages- python">
 <span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
 <span class="hljs-keyword">from</span> .options <span class="hljs-keyword">import</span> COLORS, SIZES, SHAPES
-<span class="hljs-keyword">from</span> ScopingMixin <span class="hljs-keyword">import</span> ScopingMixin, ScopingQuerySet
-<span class="hljs-keyword">import</span> datetime
 
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Widget</span><span class="hljs-params">(ScopingMixin, models.Model)</span>:</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Widget</span><span class="hljs-params">(models.Model)</span>:</span>
     name = models.CharField(max_length=<span class="hljs-number">30</span>)
     color = models.CharField(choices=COLORS, max_length=<span class="hljs-number">30</span>)
     size = models.CharField(choices=SIZES, max_length=<span class="hljs-number">30</span>)
     shape = models.CharField(choices=SHAPES, max_length=<span class="hljs-number">30</span>)
-    used_on = models.DateField(default=datetime.date.today)
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="customers-modelspy"></a><a href="#customers-modelspy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>customers/models.py</h3>
+<pre><code class="hljs css languages- python"><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Customer</span><span class="hljs-params">(ScopingMixin, models.Model)</span>:</span>
+    name = models.CharField(max_length=<span class="hljs-number">30</span>, blank=<span class="hljs-keyword">True</span>)
+    state = models.CharField(max_length=<span class="hljs-number">30</span>, blank=<span class="hljs-keyword">True</span>)
+    gender = models.CharField(max_length=<span class="hljs-number">1</span>, blank=<span class="hljs-keyword">True</span>)
+    age = models.IntegerField(blank=<span class="hljs-keyword">True</span>)
+
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_purchases</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">from</span> purchases.models <span class="hljs-keyword">import</span> Purchase
+        <span class="hljs-keyword">return</span> Purchase.objects.all().filter(customer=self)
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="purchases-modelspy"></a><a href="#purchases-modelspy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>purchases/models.py</h3>
+<pre><code class="hljs css languages- python"><span class="hljs-keyword">import</span> pytz
+<span class="hljs-keyword">import</span> django
+<span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+<span class="hljs-keyword">from</span> .state_regions <span class="hljs-keyword">import</span> NORTHEAST, MIDWEST, SOUTH, WEST
+<span class="hljs-keyword">from</span> django.db.models <span class="hljs-keyword">import</span> Sum, Count, Avg
+<span class="hljs-keyword">from</span> widgets.models <span class="hljs-keyword">import</span> Widget
+<span class="hljs-keyword">from</span> customers.models <span class="hljs-keyword">import</span> Customer
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime <span class="hljs-keyword">as</span> dt, timedelta <span class="hljs-keyword">as</span> td
+<span class="hljs-keyword">from</span> DjangoEasyScoping.ScopingMixin <span class="hljs-keyword">import</span> ScopingMixin, ScopingQuerySet
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Purchase</span><span class="hljs-params">(ScopingMixin, models.Model)</span>:</span>
+    items = models.ManyToManyField(Widget, blank=<span class="hljs-keyword">True</span>)
+    sale_date = models.DateTimeField(default=django.utils.timezone.now)
+    sale_price = models.FloatField(default=<span class="hljs-number">0</span>, blank=<span class="hljs-keyword">True</span>)
+    profit = models.FloatField(default=<span class="hljs-number">0</span>, blank=<span class="hljs-keyword">True</span>)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
     objects = ScopingQuerySet.as_manager()
 
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_items</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.items.all()
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_name</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.name
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_item_count</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.items.all().count()
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_color</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.color
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_sale_date</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.sale_date
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_size</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.size
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_sale_price</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.sale_price
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_shape</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.shape
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_cost</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> round(self.items.aggregate(cost=Sum(<span class="hljs-string">'cost'</span>))[<span class="hljs-string">'cost'</span>], <span class="hljs-number">2</span>)
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_used_on</span><span class="hljs-params">(self)</span>:</span>
-        <span class="hljs-keyword">return</span> self.used_on
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_profit</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.profit
 
-<span class="hljs-comment"># Scopes for filtering</span>
-Widget.scope(<span class="hljs-string">'basic_filter_widget'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(color=<span class="hljs-string">'blue'</span>,
-                                                    size=<span class="hljs-string">'small'</span>,
-                                                    shape=<span class="hljs-string">'circle'</span>))
-Widget.scope(<span class="hljs-string">'blue'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(color=<span class="hljs-string">'blue'</span>))
-Widget.scope(<span class="hljs-string">'small'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(size=<span class="hljs-string">'small'</span>))
-Widget.scope(<span class="hljs-string">'circle'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(shape=<span class="hljs-string">'circle'</span>))
-Widget.scope(<span class="hljs-string">'before_y2k'</span>, <span class="hljs-keyword">lambda</span> qs: qs.f(used_on__lte=datetime.date(<span class="hljs-number">2000</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)))
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">set_sale_price</span><span class="hljs-params">(self)</span>:</span>
+        cost_plus_profit = <span class="hljs-number">1.1</span>
+        cost = self.get_cost()
+        self.sale_price = round(cost*cost_plus_profit, <span class="hljs-number">2</span>)
 
-<span class="hljs-comment"># Scopes for excluding</span>
-Widget.scope(<span class="hljs-string">'basic_exclude_widget'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(color=<span class="hljs-string">'blue'</span>,
-                                                     size=<span class="hljs-string">'small'</span>,
-                                                     shape=<span class="hljs-string">'circle'</span>))
-Widget.scope(<span class="hljs-string">'not_blue'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(color=<span class="hljs-string">'blue'</span>))
-Widget.scope(<span class="hljs-string">'not_small'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(size=<span class="hljs-string">'small'</span>))
-Widget.scope(<span class="hljs-string">'not_circle'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(shape=<span class="hljs-string">'circle'</span>))
-Widget.scope(<span class="hljs-string">'not_before_y2k'</span>, <span class="hljs-keyword">lambda</span> qs: qs.e(used_on__lte=datetime.date(<span class="hljs-number">2000</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)))
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">set_profit</span><span class="hljs-params">(self)</span>:</span>
+        profit_margin = <span class="hljs-number">.1</span>
+        cost = self.get_cost()
+        self.profit = round(cost*profit_margin, <span class="hljs-number">2</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">save</span><span class="hljs-params">(self, *args, **kwargs)</span>:</span>
+        <span class="hljs-keyword">if</span> self.id:
+            <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> Widget.objects.filter(purchase=self):
+                self.items.add(item)
+                self.set_sale_price()
+                self.set_profit()
+                super(Purchase, self).save(*args, **kwargs)
+
+        <span class="hljs-keyword">else</span>:
+            super(Purchase, self).save(*args, **kwargs)
+
+
+Purchase.register_scope(<span class="hljs-string">'male_seniors_midwest'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(customer__age__gte=<span class="hljs-number">65</span>)
+                                     .filter(customer__gender__in=<span class="hljs-string">'M'</span>)
+                                     .filter(**MIDWEST)
+                        )
+
+Purchase.register_scope(<span class="hljs-string">'female_seniors_midwest'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(customer__age__gte=<span class="hljs-number">65</span>)
+                                     .filter(customer__gender__in=<span class="hljs-string">'F'</span>)
+                                     .filter(**MIDWEST)
+                        )
+
+Purchase.register_scope(<span class="hljs-string">'gender_seniors_midwest'</span>,
+                        <span class="hljs-keyword">lambda</span> qs, g: qs.filter(customer__age__gte=<span class="hljs-number">65</span>)
+                                        .filter(customer__gender__in=g)
+                                        .filter(**MIDWEST)
+                        )
+
+Purchase.register_aggregate(<span class="hljs-string">'data_last_days'</span>,
+                            <span class="hljs-keyword">lambda</span> qs, days:
+                            qs.filter(sale_date__gte=dt.utcnow().replace(tzinfo=pytz.utc) - td(days=days))
+                            .annotate(item_count=Count(<span class="hljs-string">'items'</span>))
+                            .aggregate(total_sales=Count(<span class="hljs-string">'customer'</span>),
+                                       average_items_per_sale=Avg(<span class="hljs-string">'item_count'</span>),
+                                       total_profit=Sum(<span class="hljs-string">'profit'</span>),
+                                       average_profit=Avg(<span class="hljs-string">'profit'</span>))
+                            )
+
+Purchase.register_scope(<span class="hljs-string">'senior'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(customer__age__gte=<span class="hljs-number">65</span>))
+Purchase.register_scope(<span class="hljs-string">'millenial'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(customer__age__gte=<span class="hljs-number">22</span>)
+                                     .filter(customer__age__lte=<span class="hljs-number">37</span>))
+
+Purchase.register_scope(<span class="hljs-string">'male'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(customer__gender__in=<span class="hljs-string">'M'</span>))
+Purchase.register_scope(<span class="hljs-string">'female'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(customer__gender__in=<span class="hljs-string">'F'</span>))
+
+Purchase.register_scope(<span class="hljs-string">'northeast'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(**NORTHEAST))
+
+Purchase.register_scope(<span class="hljs-string">'midwest'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(**MIDWEST))
+
+Purchase.register_scope(<span class="hljs-string">'southern'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(**SOUTH))
+
+Purchase.register_scope(<span class="hljs-string">'western'</span>,
+                        <span class="hljs-keyword">lambda</span> qs: qs.filter(**WEST))
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#basic-usage">Basic Usage</a><ul class="toc-headings"><li><a href="#scoping">Scoping</a></li><li><a href="#scoping-multiple-fields">Scoping Multiple Fields</a></li><li><a href="#chaining-scopes">Chaining Scopes</a></li><li><a href="#chaining-scopes-django-methods">Chaining Scopes + Django Methods</a></li><li><a href="#exluding-scopes">Exluding Scopes</a></li><li><a href="#using-other-queryset-methods">Using Other Queryset Methods</a></li></ul></li><li><a href="#advanced-usage">Advanced Usage</a><ul class="toc-headings"><li><a href="#arguments">Arguments</a></li><li><a href="#multiple-arguments">Multiple Arguments</a></li><li><a href="#keyword-arguments">Keyword Arguments</a></li><li><a href="#multiple-keyword-arguments">Multiple Keyword Arguments</a></li></ul></li><li><a href="#example-django-model">Example Django Model</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Net Prophet Technologies </section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#basic-usage">Basic Usage</a><ul class="toc-headings"><li><a href="#scoping">Scoping</a></li><li><a href="#chaining-scopes">Chaining Scopes</a></li><li><a href="#using-other-queryset-methods">Using Other Queryset Methods</a></li></ul></li><li><a href="#real-world-usage">Real-World Usage</a><ul class="toc-headings"><li><a href="#scoping-example">Scoping Example</a></li><li><a href="#aggregate-example">Aggregate Example</a></li><li><a href="#putting-it-together">Putting it Together</a></li></ul></li><li><a href="#example-django-models">Example Django Models</a><ul class="toc-headings"><li><a href="#widgets-modelspy">widgets/models.py</a></li><li><a href="#customers-modelspy">customers/models.py</a></li><li><a href="#purchases-modelspy">purchases/models.py</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Net Prophet Technologies </section></footer></div></body></html>
