@@ -105,36 +105,19 @@ const Scopes_Aggregate = props => (
   <Block layout="fourColumn">
     {[
       {
-        content: 'Reduce common querysets to easy to use scopes.',
+        content: 'Take complicated querysets and register them as easy to use Scopes.',
         image: imgUrl('NPlogo2.svg'),
         imageAlign: 'top',
         title: 'Scopes',
       },
       {
-        content: 'Take queryset and return a scalar value(s).',
+        content: 'Using the same syntax register complicated aggregates for quick use.',
         image: imgUrl('NPlogo2.svg'),
         imageAlign: 'top',
-        title: 'Custom Aggregate Functions',
+        title: 'Aggregates',
       },
     ]}
   </Block>
-);
-
-const Querysets = props => (
-  <div
-    className="productShowcaseSection paddingBottom"
-    style={{textAlign: 'center'}}>
-  <Block layout="fourColumn">
-    {[
-      {
-        content: 'Easy syntax for complicated querysets.',
-        image: imgUrl('NPlogo.svg'),
-        imageAlign: 'top',
-        title: 'Querysets',
-      },
-    ]}
-  </Block>
-  </div>
 );
 
 class Index extends React.Component {
@@ -146,7 +129,6 @@ class Index extends React.Component {
         <HomeSplash language={language} />
         <div className="mainContainer">
           <Scopes_Aggregate />
-          <Querysets />
         </div>
       </div>
     );

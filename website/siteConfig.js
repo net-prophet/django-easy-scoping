@@ -22,7 +22,7 @@ const users = [
 
 const siteConfig = {
   title: 'Django Easy Scoping' /* title for your website */,
-  tagline: 'Scopes, Aggregate Functions, and Querysets made easy!',
+  tagline: 'Scoping and Aggregate functions to speed up your work flow!',
   url: 'https://net-prophet.github.io' /* your website url */,
   baseUrl: '/django-easy-scoping/' /* base url for your project */,
   // For github.io type URLs, you would set the url and baseUrl like:
