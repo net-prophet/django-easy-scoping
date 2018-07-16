@@ -1,0 +1,9 @@
+README.md
+setup.py
+DjangoEasyScoping/ScopingMixin.py
+DjangoEasyScoping/__init__.py
+django_easy_scoping.egg-info/PKG-INFO
+django_easy_scoping.egg-info/SOURCES.txt
+django_easy_scoping.egg-info/dependency_links.txt
+django_easy_scoping.egg-info/requires.txt
+django_easy_scoping.egg-info/top_level.txt

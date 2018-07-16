@@ -1,0 +1,5 @@
+customers
+easy_scoping
+purchases
+tests
+widgets

@@ -1,0 +1,1 @@
+name='Django-Easy-Scoping'

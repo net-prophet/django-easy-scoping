@@ -1,16 +1,30 @@
----
-id: installation
-title: Getting Started
----
+Django Easy Scoping allows you to register scopes and aggregate functions on
+your Django models. 
 
 ## Installation
+
+To get the `ScopingMixin.py` file you can download it or use pip.
+
+### Downloading File
+
+Download the ScopingMixin file from github.
+[ScopingMixin.py](http://github.com/net-prophet/django-easy-scoping/blob/master/DjangoEasyScoping/DjangoEasyScoping/ScopingMixin.py)
+
+Import `ScopingMixin` and `ScopingQuerySet` from `ScopingMixin.py`.
+```python
+from <path to file>.ScopingMixin import ScopingMixin, ScopingQuerySet
+```
+
+### Using pip
 
 `$ pip install django-easy-scoping`
 
 Import `ScopingMixin` and `ScopingQuerySet` from `ScopingMixin.py`.
 ```python
-from ScopingMixin import ScopingMixin, ScopingQuerySet
+from DjangoEasyScoping.ScopingMixin import ScopingMixin, ScopingQuerySet
 ```
+
+### Implementing
 
 Mix `ScopingMixin` in with the Django model(s) you'd like to create scopes for.
 ```python
@@ -34,7 +48,9 @@ something other than `objects`, for instance:
 other_name = ScopingQuerySet.as_manager()
 ```
 
-Then simply open `ScopingMixin.py` and edit the following methods
+Then simply open `ScopingMixin.py` in your `sites-packages` and edit the following 
+methods. 
+
 ```python
 class ScopingMixin(object):
 

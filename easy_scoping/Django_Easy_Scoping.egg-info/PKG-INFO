@@ -1,0 +1,11 @@
+Metadata-Version: 1.2
+Name: Django-Easy-Scoping
+Version: 1.0
+Summary: A mixin to allow users to create scopes on Django models.
+Home-page: https://github.com/net-prophet/django-easy-scoping
+Author: Robert Wells
+Author-email: wellsroberte@gmail.com
+License: BSD
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*
