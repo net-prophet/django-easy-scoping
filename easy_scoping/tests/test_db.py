@@ -73,12 +73,22 @@ class PurchaseTests(TestCase):
         cust = Customer.objects.create(name='testcust',
                                        state='Florida',
                                        gender='M',
-                                       age='28')
+                                       age='29')
         purch1 = Purchase(customer=cust)
         purch1.save()
         purch1.items.add(widg1)
         purch1.items.add(widg2)
         purch1.save()
+
+    def test_customer_methods(self):
+        cust = Customer.objects.get(name='testcust')
+        pur = Purchase.objects.first()
+        self.assertEqual(cust.get_purchases().first(), pur)
+
+        self.assertEqual(cust.get_name(), 'testcust')
+        self.assertEqual(cust.get_state(), 'Florida')
+        self.assertEqual(cust.get_gender(), 'M')
+        self.assertEqual(cust.get_age(), 29)
 
     def test_items_added(self):
         purch1 = Purchase.objects.first()

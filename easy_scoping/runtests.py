@@ -2,7 +2,6 @@ import os
 import sys
 
 
-
 def run_tests():
 
     test_dir = os.path.dirname(__file__)

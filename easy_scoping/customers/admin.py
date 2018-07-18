@@ -6,6 +6,7 @@ from purchases.models import Purchase
 class PurchaseInLine(admin.TabularInline):
     model = Purchase
 
+
 class CustomerAdmin(admin.ModelAdmin):
     model = Customer
     list_display = ('name', 'state', 'gender', 'age', 'get_purchases')

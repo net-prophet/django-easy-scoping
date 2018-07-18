@@ -6,7 +6,7 @@ from django.db.models import Sum, Count, Avg
 from widgets.models import Widget
 from customers.models import Customer
 from datetime import datetime as dt, timedelta as td
-from DjangoEasyScoping.ScopingMixin import ScopingMixin, ScopingQuerySet
+from .ScopingMixin import ScopingMixin, ScopingQuerySet
 
 
 class Purchase(ScopingMixin, models.Model):
@@ -57,35 +57,76 @@ class Purchase(ScopingMixin, models.Model):
         else:
             super(Purchase, self).save(*args, **kwargs)
 
-Purchase.register_aggregate('data_last_days',
-                            lambda qs, days:
-                            qs.filter(sale_date__gte=dt.utcnow().replace(tzinfo=pytz.utc) - td(days=days))
-                            .annotate(item_count=Count('items'))
-                            .aggregate(total_sales=Count('customer'),
-                                       average_items_per_sale=Avg('item_count'),
-                                       total_profit=Sum('profit'),
-                                       average_profit=Avg('profit'))
-                            )
 
-Purchase.register_scope('senior',
-                        lambda qs: qs.filter(customer__age__gte=65))
-Purchase.register_scope('millenial',
-                        lambda qs: qs.filter(customer__age__gte=22)
-                                     .filter(customer__age__lte=37))
+Purchase.register_scope(
+    'male_seniors_midwest',
+    lambda qs: qs.filter(customer__age__gte=65)
+                 .filter(customer__gender__in='M')
+                 .filter(**MIDWEST)
+)
 
-Purchase.register_scope('male',
-                        lambda qs: qs.filter(customer__gender__in='M'))
-Purchase.register_scope('female',
-                        lambda qs: qs.filter(customer__gender__in='F'))
+Purchase.register_scope(
+    'gender_seniors_midwest',
+    lambda qs, g: qs.filter(customer__age__gte=65)
+                    .filter(customer__gender__in=g)
+                    .filter(**MIDWEST)
+)
 
-Purchase.register_scope('northeast',
-                        lambda qs: qs.filter(**NORTHEAST))
+Purchase.register_scope(
+    'female_seniors_midwest',
+    lambda qs: qs.filter(customer__age__gte=65)
+                 .filter(customer__gender__in='F')
+                 .filter(**MIDWEST)
+)
 
-Purchase.register_scope('midwest',
-                        lambda qs: qs.filter(**MIDWEST))
+Purchase.register_aggregate(
+    'data_last_days',
+    lambda qs, days: qs.filter(
+        sale_date__gte=dt.utcnow().replace(tzinfo=pytz.utc) - td(days=days)
+    ).annotate(item_count=Count('items'))
+     .aggregate(total_sales=Count('customer'),
+                average_items_per_sale=Avg('item_count'),
+                total_profit=Sum('profit'),
+                average_profit=Avg('profit'))
+)
 
-Purchase.register_scope('southern',
-                        lambda qs: qs.filter(**SOUTH))
+Purchase.register_scope(
+    'senior',
+    lambda qs: qs.filter(customer__age__gte=65)
+)
 
-Purchase.register_scope('western',
-                        lambda qs: qs.filter(**WEST))
+Purchase.register_scope(
+    'millenial',
+    lambda qs: qs.filter(customer__age__gte=22)
+                 .filter(customer__age__lte=37)
+)
+
+Purchase.register_scope(
+    'male',
+    lambda qs: qs.filter(customer__gender__in='M')
+)
+
+Purchase.register_scope(
+    'female',
+    lambda qs: qs.filter(customer__gender__in='F')
+)
+
+Purchase.register_scope(
+    'northeast',
+    lambda qs: qs.filter(**NORTHEAST)
+)
+
+Purchase.register_scope(
+    'midwest',
+    lambda qs: qs.filter(**MIDWEST)
+)
+
+Purchase.register_scope(
+    'southern',
+    lambda qs: qs.filter(**SOUTH)
+)
+
+Purchase.register_scope(
+    'western',
+    lambda qs: qs.filter(**WEST)
+)

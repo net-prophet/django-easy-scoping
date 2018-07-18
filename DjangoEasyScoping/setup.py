@@ -32,7 +32,9 @@ setuptools.setup(
     keywords='django python scope scoping aggregate',
     project_urls={
         'Docs': 'https://net-prophet.github.io/django-easy-scoping/',
-        'Usage': 'https://net-prophet.github.io/django-easy-scoping/docs/usage.html',
-        'API': 'https://net-prophet.github.io/django-easy-scoping/docs/api.html',
+        'Usage': 'https://net-prophet.github.io/'
+                 'django-easy-scoping/docs/usage.html',
+        'API': 'https://net-prophet.github.io/'
+               'django-easy-scoping/docs/api.html',
     }
 )

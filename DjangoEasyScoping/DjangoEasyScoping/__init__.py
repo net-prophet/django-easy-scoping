@@ -1,1 +1,1 @@
-name='Django-Easy-Scoping'
+name = 'Django-Easy-Scoping'

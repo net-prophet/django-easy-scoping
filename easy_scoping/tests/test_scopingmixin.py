@@ -40,9 +40,37 @@ class ScopingMixinTests(TestCase):
                                  transform=lambda x: x,
                                  ordered=False)
 
-    def test_not_scope_agg(self):
+    def test_register(self):
+        Widget.register_scope('red', lambda qs: qs.filter(color='red'))
+        obj1 = Widget.objects.filter(color='red')
+        obj2 = Widget.objects.all().red()
+
+        self.assertQuerysetEqual(obj1,
+                                 obj2,
+                                 transform=lambda x: x,
+                                 ordered=False)
+
+        Widget.register_scope('red', lambda qs: qs.filter(color='blue'))
+        obj3 = Widget.objects.filter(color='blue')
+        obj4 = Widget.objects.all().red()
+
+        self.assertEqual(obj3.count(), obj4.count())
+
+    def test_errors(self):
         with self.assertRaises(AttributeError):
             Widget.objects.all().not_a_scope()
+
+        with self.assertRaises(AttributeError):
+            Widget.objects.al().get_scope('not_a_scope')
+
+        with self.assertRaises(AttributeError):
+            Widget.objects.al().get_aggregate('not_a_scope')
+
+        with self.assertRaises(AttributeError):
+            Widget.register_aggregate('blue', lambda x: x)
+
+        with self.assertRaises(AttributeError):
+            Widget.register_scope('num_blue', lambda x: x)
 
     def test_get_scope(self):
         obj1 = Widget.objects.all().blue()

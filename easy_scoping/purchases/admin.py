@@ -8,12 +8,9 @@ class WidgetInLine(admin.TabularInline):
 
 class PurchaseAdmin(admin.ModelAdmin):
     model = Purchase
-    list_display = ('sale_date', 'sale_price', 'profit', 'get_customer')
+    list_display = ('sale_date', 'sale_price', 'profit')
     list_filter = ('sale_date', 'sale_price', 'profit')
     inlines = [WidgetInLine]
-
-    def get_customer(self, obj):
-        return obj.customer.name
 
 
 admin.site.register(Purchase, PurchaseAdmin)

@@ -31,7 +31,7 @@ class Widget(ScopingMixin, models.Model):
 
     def save(self, *args, **kwargs):
         if self.name == '':
-            self.name = '%s.%s.%s'%(self.color, self.size, self.shape)
+            self.name = '%s.%s.%s' % (self.color, self.size, self.shape)
 
         color_sum = sum([ord(x) for x in self.color])
         size_sum = sum([ord(x) for x in self.size])
@@ -42,8 +42,13 @@ class Widget(ScopingMixin, models.Model):
     def __str__(self):
         return self.name
 
+
 # Scopes for getting full test coverage of the ScopingMixin
-Widget.register_scope('blue', lambda qs: qs.filter(color='blue'))
-Widget.register_aggregate('num_blue', lambda qs: qs.aggregate(
-                                                    ret=Count(Case(When(then=1,
-                                                    color='blue'))))['ret'])
+Widget.register_scope(
+    'blue',
+    lambda qs: qs.filter(color='blue')
+)
+Widget.register_aggregate(
+    'num_blue',
+    lambda qs: qs.aggregate(ret=Count(Case(When(then=1, color='blue'))))['ret']
+)
