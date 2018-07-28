@@ -6,14 +6,14 @@ title: Usage
 Example Django Model located at
 [bottom of page](https://net-prophet.github.io/django-easy-scoping/docs/usage.html#example-django-models).
 
-A scope enables easier database filtering in Django. A user can specify one or more
-filters for a scope and then simply use the scope to search the database, rather
-than making long filter calls. Additionally, users can chain together scopes to
-combine the filters used by both.
+Scopes enable easier database filtering in Django. A user can specify one or more
+Django queries in a scope and then simply use the scope to search the database,
+rather than make long sets of query calls. Additionally, users can chain together
+scopes to combine the queries encompassed both.
 
-Aggregates also allows for simpler database queries. By encompassing Django filter,
-annotation, and aggregation calls in a single aggregate, the user can more easily
-extract, view, and analyze their data.
+Aggregates also allow for simpler database queries. By combining Django filters,
+annotations, aggregations, and other query calls in a single aggregate, the user can
+more easily extract, view, and analyze their data.
 
 ## Basic Usage
 
