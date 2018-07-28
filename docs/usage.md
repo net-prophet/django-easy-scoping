@@ -13,7 +13,7 @@ combine the filters used by both.
 
 Aggregates also allows for simpler database queries. By encompassing Django filter,
 annotation, and aggregation calls in a single aggregate, the user can more easily
-extract, view, and analyze iheir data.
+extract, view, and analyze their data.
 
 ## Basic Usage
 
@@ -39,19 +39,22 @@ Here are some simple examples just to see the syntax.
 [Register the scope](https://net-prophet.github.io/django-easy-scoping/docs/api.html#register-scope)
 `models.py`:
 ```python
-<Object Type>.register_scope('<scope name>', <filtering method(s)>)
+<Object Type>.register_scope('<scope name>', <query function(s)>)
 ```
-The filtering call will likely take forms such as:
+The query call will likely take forms such as:
 ```python
-# Single filter
-lambda qs: qs.filter(<feature>=<value>)
+# Single query function
+lambda qs: qs.fn1(<feature>=<value>)
 
-# Or multiple filters
-lambda qs: qs.filter(<feature1>=<value1>).filter(<feature2>=<value2>).<...>
+# Or multiple query functions
+lambda qs: qs.fn1(<feature1>=<value1>).fn2(<feature2>=<value2>).<...>
 
 # Or taking paramters
-lambda qs, param1, param2, <...>: qs.filter(<feature1>=param1).filter(<feature2>=param2).<...>
+lambda qs, param1, param2, <...>: qs.fn1(<feature1>=param1).fn2(<feature2>=param2).<...>
 ```
+`fn1()` and `fn2()` are
+[Django query functions](https://docs.djangoproject.com/en/2.0/ref/models/querysets/)
+such as `filter()`, `exclude()`, or `latest()`.
 
 For example, for
 [`widgets/models.py`](https://net-prophet.github.io/django-easy-scoping/docs/usage.html#widgets-modelspy)
@@ -61,7 +64,8 @@ Widget.register_scope('blue', lambda qs: qs.filter(color='blue'))
 This registers a scope named `blue`, which when invoked, filters for Widget objects
 whose color is `blue`.
 
-Using a scope will return all objects with the To filter with a scope, use the following syntax:
+Invoking a scope executes the Django query functions that it encompasses, returning
+the corresponding object(s). To call a scope, use the following syntax:
 ```python
 <Object Type>.objects.all().<scope name>()
 ```
@@ -111,15 +115,14 @@ Widget.objects.all().blue().small().circle()
 
 If a scope (denote it by scope1) has already been registered under a name (say
 `name1`), then another scope (scope2) can also be registered under the same name.
-However, for scope2, the name passed to `register_scope()` is automatically preceded
-by an underscore (`_name1`).
+However, scope2's name is automatically preceded by an underscore (`_name1`).
 
-If three or more scopes (denoted scope1, scope2, scope3, ..., scopeN) are registered
-under the same name (`name1`), then scope1 is unaffected: its name remains as
-`name1`. scope2's name is preceded by an underscore: `_name1`. Then, scope3's name
+If three or more scopes (denoted as scope1, scope2, scope3, ..., scopeN) are
+registered under the same name (`name1`), then scope1 is unaffected: its name remains
+as `name1`. scope2's name is preceded by an underscore: `_name1`. Then, scope3's name
 becomes `_name1`, overriding scope2. Then, scope4's name becomes `_name1`, overriding
-scope3, etc. So in the end, scope1's name is `name1`, and scopeN's name is `_name1`,
-and scope2 through scopeN-1 are no longer accessible.
+scope3, etc. So in the end, scope1's name is `name1`, scopeN's name is `_name1`, and
+scope2 through scopeN-1 are no longer accessible.
 
 ### Registering Multiple Aggregates Under the Same Name
 
@@ -182,20 +185,20 @@ Purchase.register_scope('gender_seniors_midwest',
 # Let's also make one for millenials
 Purchase.register_scope('gender_millenials_midwest', 
                         lambda qs, g: qs.filter(customer__age__gte=22)
-                                        .filter(customer__age_lte=37)
+                                        .filter(customer__age__lte=37)
                                         .filter(customer__gender__in=g)
                                         .filter(**MIDWEST))
 ```
 
 Note: To create a scope that accepts a parameter, use the method:
 ```python
-lambda qs, parameter: qs.filter(<feature>=parameter)
+lambda qs, parameter: qs.fn(<feature>=parameter)
 ```
 within the `register_scope()` method.
 
 Then, use the scope via:
 ```python
-<Class Type>.objects.all().<scope name>(<parameter value to filter for>)
+<Class Type>.objects.all().<scope name>(<parameter value>)
 ```
 
 So now we have a scope for all customers of a particular gender, age, and
@@ -224,7 +227,7 @@ Well, let's register some aggregates!
 [Register the aggregates](https://net-prophet.github.io/django-easy-scoping/docs/api.html#register-aggregate)
 on `models.py`:
 ```python
-<Object Type>.register_aggregate('<aggregate name>', <filtering/annotating/aggratating/etc. method(s)>)
+<Object Type>.register_aggregate('<aggregate name>', <filtering/annotating/aggratating/etc functions(s)>)
 ```
 The filtering call will likely take forms such as:
 ```python
@@ -238,7 +241,17 @@ lambda qs: qs.filter(<feature1>=<value1>)
              .aggregate(<label2>=<aggregating function2>,
                         <label3>=<aggregating function3>,
                         <...>)
+
+lambda qs, param1, param2, <...>: qs.fn1(<feature1>=<param1>)
+                                    .fn2(<feature2>=<param2>)
+                                    .fn3(<arguments>)
+                                    .fn4(<arguments>)
+                                    <...>
 ```
+`fn1()`, `fn2()`, `fn3()`, and `fn4()` are
+[Django query functions](https://docs.djangoproject.com/en/2.0/ref/models/querysets/)
+such as `filter()`, `exclude()`, `annotate()`, or `aggregate()`.
+
 For example, on
 [`purchases/models.py`](https://net-prophet.github.io/django-easy-scoping/docs/usage.html#purchases-modelspy):
 ```python
@@ -294,7 +307,7 @@ Let's check out millenials.
 {'total_sales': 18, 'total_profit': 24107.1, 'average_profit': 4017.84, 'average_items_per_sale': 7.98}
 ```
 
-So male millenials in the midwest are buying a lot of our products!
+So male millenials in the Midwest are buying a lot of our products!
 
 
 ## Example Django Models
